@@ -144,7 +144,7 @@ int main() {
 
     // Test data. Change to read Clothes from Closet once full project linked
     HSLColor closetColors[10] = {
-        HSLColor(40, 100, 100),
+        HSLColor(36, 100, 100),
         HSLColor(50),
         HSLColor(60),
         HSLColor(70),
@@ -173,17 +173,15 @@ int main() {
         */
         for(int i = 0; i < 10; i++) {
             for (int j = 0; j < 4; j++) {
-                int lowerBound = colorPaletteHues[j] - (36 * loops);
+                /*
+                Originally, I expanded both sides. This led to too many colors included.
+                So, the lower bound equals the original value, the upper bound equals the computed value.
+                */
                 int upperBound = colorPaletteHues[j] + (36 * loops);
-                if (lowerBound < 0) {
-                    lowerBound += 360;
-                } else if (upperBound > 359) {
+                if (upperBound > 359) {
                     upperBound -= 360;
                 }
-                if (lowerBound > upperBound) {
-                    swapBounds(&lowerBound, &upperBound);
-                }
-                if (inRange(closetColors[i].getHue(), lowerBound, upperBound)) {
+                if (inRange(closetColors[i].getHue(), colorPaletteHues[j], upperBound)) {
                     // Change to a Clothes Object once we have full project developed
                     head.addUnique(closetColors[i].getHue());
                     match = true;
