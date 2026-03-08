@@ -27,14 +27,6 @@ class HSLColor {
             os << endl;
             return os;
         }
-
-        bool operator==(int value) {
-            // Only check hue to include different shades of the same color
-            if (hue == value) {
-                return true;
-            }
-            return false;
-        }
 };
 
 class RGBColor {
@@ -43,15 +35,6 @@ class RGBColor {
         int greenValue;
         int blueValue;
 };
-
-bool inRange(int value, int lowerBound, int upperBound) {
-    cout << "LB: " << lowerBound << endl;
-    cout << "UB: " << upperBound << endl;
-    if (value >= lowerBound && value <= upperBound) {
-        return true;
-    }
-    return false;
-}
 
 class Node {
     public:
@@ -102,11 +85,69 @@ class LinkedList {
         }
 };
 
-void swapBounds(int* a, int* b) {
-    int temp = *a;
-    *a = *b;
-    *b = temp;
+bool inRange(int value, int lowerBound, int upperBound) {
+    if (value >= lowerBound && value <= upperBound) {
+        return true;
+    }
+    return false;
 }
+
+int* TetradicPaletteGenerator(int hue) {
+    /*
+    Reference: https://www.digitalocean.com/community/tutorials/return-array-in-c-plus-plus-function
+    */
+
+    static int colorPaletteHues[4];
+    // Assign tetradic hue values to palette array 
+    for (int i = 0; i < 4; i++) {
+        int offset = 90 * i;
+        int newValue = hue + offset;
+        if (newValue > 359) {
+            newValue -= 360;
+        }
+        colorPaletteHues[i] = newValue;
+    }
+    return colorPaletteHues;
+}
+
+Node* matchingClothes(HSLColor* closet, int* hues) {
+    int loops = 0;
+    bool match = false;
+    LinkedList head;
+    head.head = NULL;
+    /*
+    Loop until match found,
+    Each iteration, increase range by 10%, = add/subtract 36 degrees from each value
+    */
+    do {
+        /*
+        For clothes in partitioned closet,
+        If hue is within range,
+        Add to matchingColor Linked list of Clothes objects
+        */
+        for(int i = 0; i < 10; i++) {
+            for (int j = 0; j < 4; j++) {
+                /*
+                Originally, I expanded both sides. This led to too many colors included.
+                So, the lower bound equals the original value, the upper bound equals the computed value.
+                */
+                int upperBound = hues[j] + (36 * loops);
+                if (upperBound > 359) {
+                    upperBound -= 360;
+                }
+                if (inRange(closet[i].getHue(), hues[j], upperBound)) {
+                    // Change to a Clothes Object once we have full project developed
+                    head.addUnique(closet[i].getHue());
+                    match = true;
+                }
+            }
+        }
+        loops++;
+    } while (match == false);
+    return head.head;
+
+}
+
 
 int main() {
     /*
@@ -124,23 +165,14 @@ int main() {
     /*
     Actually, We don't need to make 4 HSLColor objects.
     Instead, use an integer array to test equality on the hue.
-    So, we can do HSLColor = 45;
+    So, we can do HSLColor == 45;
     This will tell us if the hue of the color is equal to 45, leaving room for different saturations and lightnesses
     Also, this improves memory usage
     */
 
     HSLColor original(0);
-    int colorPaletteHues[4];
-    // Assign tetradic hue values to palette array 
-    for (int i = 0; i < 4; i++) {
-        int offset = 90 * i;
-        int newValue = original.getHue() + offset;
-        if (newValue > 359) {
-            newValue -= 360;
-        }
-        colorPaletteHues[i] = newValue;
-
-    }
+    // Assign tetradic hue values to palette array
+    int* colorPaletteHues = TetradicPaletteGenerator(original.getHue());
 
     // Test data. Change to read Clothes from Closet once full project linked
     HSLColor closetColors[10] = {
@@ -156,41 +188,36 @@ int main() {
         HSLColor(80),
     };
 
-    int loops = 0;
-    bool match = false;
     LinkedList head;
     head.head = NULL;
 
-    /*
-    Loop until match found,
-    Each iteration, increase range by 10%, = add/subtract 36 degrees from each value
-    */
-    do {
-        /*
-        For clothes in partitioned closet,
-        If hue is within range,
-        Add to matchingColor Linked list of Clothes objects
-        */
-        for(int i = 0; i < 10; i++) {
-            for (int j = 0; j < 4; j++) {
-                /*
-                Originally, I expanded both sides. This led to too many colors included.
-                So, the lower bound equals the original value, the upper bound equals the computed value.
-                */
-                int upperBound = colorPaletteHues[j] + (36 * loops);
-                if (upperBound > 359) {
-                    upperBound -= 360;
-                }
-                if (inRange(closetColors[i].getHue(), colorPaletteHues[j], upperBound)) {
-                    // Change to a Clothes Object once we have full project developed
-                    head.addUnique(closetColors[i].getHue());
-                    match = true;
-                }
-            }
-        }
-        loops++;
-    } while (match == false);
-    cout << loops << endl;
+    head.head = matchingClothes(closetColors, colorPaletteHues);
+    // do {
+    //     /*
+    //     For clothes in partitioned closet,
+    //     If hue is within range,
+    //     Add to matchingColor Linked list of Clothes objects
+    //     */
+    //     for(int i = 0; i < 10; i++) {
+    //         for (int j = 0; j < 4; j++) {
+    //             /*
+    //             Originally, I expanded both sides. This led to too many colors included.
+    //             So, the lower bound equals the original value, the upper bound equals the computed value.
+    //             */
+    //             int upperBound = colorPaletteHues[j] + (36 * loops);
+    //             if (upperBound > 359) {
+    //                 upperBound -= 360;
+    //             }
+    //             if (inRange(closetColors[i].getHue(), colorPaletteHues[j], upperBound)) {
+    //                 // Change to a Clothes Object once we have full project developed
+    //                 head.addUnique(closetColors[i].getHue());
+    //                 match = true;
+    //             }
+    //         }
+    //     }
+    //     loops++;
+    // } while (match == false);
+
     cout << head;
 
     return 0;    
