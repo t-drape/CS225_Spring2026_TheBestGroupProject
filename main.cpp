@@ -92,7 +92,7 @@ bool inRange(int value, int lowerBound, int upperBound) {
     return false;
 }
 
-int* TetradicPaletteGenerator(int hue) {
+int* tetradicPaletteGenerator(int hue) {
     /*
     Reference: https://www.digitalocean.com/community/tutorials/return-array-in-c-plus-plus-function
     */
@@ -172,7 +172,7 @@ int main() {
 
     HSLColor original(0);
     // Assign tetradic hue values to palette array
-    int* colorPaletteHues = TetradicPaletteGenerator(original.getHue());
+    int* colorPaletteHues = tetradicPaletteGenerator(original.getHue());
 
     // Test data. Change to read Clothes from Closet once full project linked
     HSLColor closetColors[10] = {
