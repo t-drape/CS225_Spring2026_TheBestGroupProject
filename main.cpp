@@ -26,7 +26,8 @@ class HSLColor {
         }
 
         bool operator==(HSLColor& color) {
-            if (hue == color.hue && saturation == color.saturation && lightness == color.lightness) {
+            // Only check hue to include different shades of the same color
+            if (hue == color.hue) {
                 return true;
             }
             return false;
@@ -52,7 +53,7 @@ int main() {
     Convert HSL values to RGB,
     Display RGB value(s) on clothes to user
     */
-    HSLColor original(180, 20, 10);
+    HSLColor original(220);
     // Need to make a full copy at a new memory address
     // Create an array of the 4 tetradic colors to match the closet colors against
     HSLColor colorPalette[4] = {original, HSLColor(original.hue + 90), HSLColor(original.hue + 180), HSLColor(original.hue + 270)};
@@ -60,7 +61,7 @@ int main() {
         cout << colorPalette[i];
     }
     HSLColor closetColors[10] = {
-        HSLColor(),
+        HSLColor(40, 100, 100),
         HSLColor(),
         HSLColor(),
         HSLColor(),
@@ -74,7 +75,7 @@ int main() {
     for (int i = 0; i < 10; i++) {
         for(int j = 0; j < 4; j++) {
             if (closetColors[i] == colorPalette[j]) {
-                cout << "Found a match";
+                cout << "Found a match in: " << i+1 << " tries";
                 return 0;
             }
         }
