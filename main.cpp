@@ -102,18 +102,25 @@ class LinkedList {
         }
 };
 
+void swapBounds(int* a, int* b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
 int main() {
     /*
     Given an HSL value,
     Compute the tetradic color palette,
     If no colors found in array,
-        Extend range to values within 15 degrees
+        Extend range to values within 10% of tetradic hues
     Else,
         Pick random tetradic color based on user input
     Return HSL value,
     Convert HSL values to RGB,
     Display RGB value(s) on clothes to user
     */
+
     /*
     Actually, We don't need to make 4 HSLColor objects.
     Instead, use an integer array to test equality on the hue.
@@ -121,7 +128,8 @@ int main() {
     This will tell us if the hue of the color is equal to 45, leaving room for different saturations and lightnesses
     Also, this improves memory usage
     */
-    HSLColor original;
+
+    HSLColor original(0);
     int colorPaletteHues[4];
     // Assign tetradic hue values to palette array 
     for (int i = 0; i < 4; i++) {
@@ -133,22 +141,30 @@ int main() {
         colorPaletteHues[i] = newValue;
 
     }
+
+    // Test data. Change to read Clothes from Closet once full project linked
     HSLColor closetColors[10] = {
         HSLColor(40, 100, 100),
         HSLColor(50),
         HSLColor(60),
         HSLColor(70),
         HSLColor(80),
-        HSLColor(90),
-        HSLColor(100),
-        HSLColor(110),
-        HSLColor(120),
-        HSLColor(120),
+        HSLColor(40),
+        HSLColor(50),
+        HSLColor(60),
+        HSLColor(70),
+        HSLColor(80),
     };
+
     int loops = 0;
     bool match = false;
     LinkedList head;
     head.head = NULL;
+
+    /*
+    Loop until match found,
+    Each iteration, increase range by 10%, = add/subtract 36 degrees from each value
+    */
     do {
         /*
         For clothes in partitioned closet,
@@ -164,7 +180,11 @@ int main() {
                 } else if (upperBound > 359) {
                     upperBound -= 360;
                 }
+                if (lowerBound > upperBound) {
+                    swapBounds(&lowerBound, &upperBound);
+                }
                 if (inRange(closetColors[i].getHue(), lowerBound, upperBound)) {
+                    // Change to a Clothes Object once we have full project developed
                     head.addUnique(closetColors[i].getHue());
                     match = true;
                 }
@@ -174,14 +194,6 @@ int main() {
     } while (match == false);
     cout << loops << endl;
     cout << head;
-    /*
-    If no tops in closet, return error message.
-    If no bottoms in closet, return error message.
-    */
 
-    /*
-    Loop until match found,
-    Each iteration, increase range by 10%, = add/subtract 36 degrees from each value
-    */
     return 0;    
 }
