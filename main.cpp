@@ -45,8 +45,9 @@ class RGBColor {
 };
 
 bool inRange(int value, int lowerBound, int upperBound) {
+    cout << "LB: " << lowerBound << endl;
+    cout << "UB: " << upperBound << endl;
     if (value >= lowerBound && value <= upperBound) {
-        cout << "True";
         return true;
     }
     return false;
@@ -142,7 +143,7 @@ int main() {
         HSLColor(100),
         HSLColor(110),
         HSLColor(120),
-        HSLColor(130),
+        HSLColor(120),
     };
     int loops = 0;
     bool match = false;
@@ -156,8 +157,8 @@ int main() {
         */
         for(int i = 0; i < 10; i++) {
             for (int j = 0; j < 4; j++) {
-                int lowerBound = j - (36 * loops);
-                int upperBound = j + (36 * loops);
+                int lowerBound = colorPaletteHues[j] - (36 * loops);
+                int upperBound = colorPaletteHues[j] + (36 * loops);
                 if (lowerBound < 0) {
                     lowerBound += 360;
                 } else if (upperBound > 359) {
@@ -171,19 +172,8 @@ int main() {
         }
         loops++;
     } while (match == false);
-    cout << loops;
+    cout << loops << endl;
     cout << head;
-
-    // for (int i = 0; i < 10; i++) {
-    //     for(int j = 0; j < 4; j++) {
-    //         if (closetColors[i] == colorPaletteHues[j]) {
-    //             cout << "Found a match in: " << i+1 << " tries";
-    //             return 0;
-    //         }
-    //     }
-    // }
-    // cout << "No match found";
-
     /*
     If no tops in closet, return error message.
     If no bottoms in closet, return error message.
