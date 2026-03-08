@@ -1,0 +1,55 @@
+CS225 Project Notes:
+
+	After answering a short series of questions,
+	the user will receive 1..3 outfits with the chosen types.
+
+	Suggested Fields:
+		“Is it above 70 degrees F today?”
+		“If you could describe how you feel in a color, what color would it be?”
+		“If today was a color, what color would it be?”
+		“On a scale of 1 to 5, how creative are you feeling today”
+
+	Instead of using RGB, use RYB. This is better for pigments matching of physical products.
+	Start with RGB values, and then switch to RYB if we have time.
+
+	Use Enumerables to map common colors to RGB codes (red, green, blue, orange, yellow, black, white).
+
+	Complementary: In RGB values
+		Red: 255 - R
+		Green: 255 - G
+		Blue: 255 - B
+
+	If HSL values are > 359, then roll back to 0 or 1.
+	
+	Tetradic:
+		First, complementary:
+			Red: 255 - R
+			Green: 255 - G
+			Blue: 255 - B
+
+	Convert RGB to HSL:	
+		R: r / 255
+		G: g / 255
+		B: b / 255
+
+		Find Max of R, G, B.
+		Find Min of R, G, B.
+		
+		Lightness: (M + m)/2
+
+		Saturation: 
+			If M=m, then sat = 0. 
+			L <= .5, then (max-min)/(max+min)
+			L > .5, then (max-min)/(2.0-max-min)
+
+		Hue:
+			If Red is largest,
+				H = (G-B)/(max-min)
+			If Green is largest,
+				H = 2.0 + (B-R)/(max-min)
+			If Blue is largest,
+				H = 4.0 + (R-G)/(max-min)
+
+		If H < 0, H+=360
+
+		Percent: H * 60
