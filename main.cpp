@@ -8,7 +8,10 @@ class HSLColor {
         int saturation; // Measured in percentages
         int lightness; // Measured in percentages
 
-        HSLColor(int hue = 40, int saturation= 35, int lightness = 75) {
+        HSLColor(int hue = 40, int saturation = 35, int lightness = 75) {
+            if (hue > 359) {
+                hue -= 360;
+            }
             this->hue = hue;
             this->saturation = saturation;
             this->lightness = lightness;
@@ -20,6 +23,13 @@ class HSLColor {
             os << " Lightness: " << color.lightness;
             os << endl;
             return os;
+        }
+
+        bool operator==(HSLColor& color) {
+            if (hue == color.hue && saturation == color.saturation && lightness == color.lightness) {
+                return true;
+            }
+            return false;
         }
 };
 
@@ -42,10 +52,33 @@ int main() {
     Convert HSL values to RGB,
     Display RGB value(s) on clothes to user
     */
-    HSLColor original;
+    HSLColor original(180, 20, 10);
     // Need to make a full copy at a new memory address
-    HSLColor colorPalette[3] = {HSLColor(original.hue + 90), HSLColor(original.hue + 180), HSLColor(original.hue + 270)};
-    HSLColor tetradic1(original.hue + 90);
-    HSLColor tetradic2(original.hue + 180);
-    HSLColor tetradic3(original.hue + 270);
+    // Create an array of the 4 tetradic colors to match the closet colors against
+    HSLColor colorPalette[4] = {original, HSLColor(original.hue + 90), HSLColor(original.hue + 180), HSLColor(original.hue + 270)};
+    for(int i = 0; i < 4; i++) {
+        cout << colorPalette[i];
+    }
+    HSLColor closetColors[10] = {
+        HSLColor(),
+        HSLColor(),
+        HSLColor(),
+        HSLColor(),
+        HSLColor(),
+        HSLColor(),
+        HSLColor(),
+        HSLColor(),
+        HSLColor(),
+        HSLColor(),
+    };
+    for (int i = 0; i < 10; i++) {
+        for(int j = 0; j < 4; j++) {
+            if (closetColors[i] == colorPalette[j]) {
+                cout << "Found a match";
+                return 0;
+            }
+        }
+    }
+    cout << "No match found";
+    return 0;    
 }
