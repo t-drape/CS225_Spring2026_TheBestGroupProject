@@ -17,7 +17,11 @@ color = colorchooser.askcolor(title="Select Clothing Color") # Array of two valu
 
 if color[0]:
     with open("chosen_color.txt", "w", encoding="utf-8") as f:
-        f.write(str(color[0]))
+        f.write(str(color[0][0]))
+        f.write(" ")
+        f.write(str(color[0][1]))
+        f.write(" ")
+        f.write(str(color[0][2]))
 else:
     print("Error Choosing Color")
 
