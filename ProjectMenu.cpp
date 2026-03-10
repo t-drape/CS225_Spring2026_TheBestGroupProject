@@ -6,12 +6,13 @@ int main(){
     string addToCloset;
     int weather;
     string colorful;
+    string chooseOutfit;
     cout<<"Welcome to the outfit selector program!"<<endl;
     cout<<"What is your name: "<<endl;
     cin>>closetName;
     cout<<"What is the weather looking like today? Please Input Fahrenheit value: "<<endl;
     cin>>weather;
-    if (weather >= 70){
+    if (weather >=70){
 
     }
     else if(weather < 70){
@@ -28,9 +29,25 @@ int main(){
     cout<<"Would you like to add things to your closet "<<closetName<<" ?: yes or no"<<endl;
     cin>>addToCloset;
     if (addToCloset == "yes"){
+        
+    }
+    if (addToCloset =="no"){
+        cout<<"Would you like to choose an outfit now?: yes or no"<<endl;
+        cin>>chooseOutfit;
+        if (chooseOutfit == "yes"){
+
+        }
+        if(chooseOutfit == "no"){
+
+        }
+    }
+    cout<<"Would you like to choose an outfit?: yes or no"<<endl;
+    cin>>chooseOutfit;
+    if (chooseOutfit == "yes"){
 
     }
-    
-    
+    if(chooseOutfit == "no"){
+
+    }
 
 }
