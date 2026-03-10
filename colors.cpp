@@ -43,6 +43,18 @@ class RGBColor {
             blueValue = b;
         }
 
+        double getRedValue() {
+            return double(redValue);
+        }
+
+        double getGreenValue() {
+            return double(greenValue);
+        }
+
+        double getBlueValue() {
+            return double(blueValue);
+        }
+        
         friend ostream& operator<<(ostream& os, RGBColor& color) {
             os << "Red: " << color.redValue;
             os << " Green: " << color.greenValue;
@@ -225,6 +237,68 @@ RGBColor* convertHSLtoRGB(HSLColor& color) {
     return nc;
 }
 
+HSLColor* convertRGBtoHSL(RGBColor& color) {
+    double red = color.getRedValue();
+    double green = color.getGreenValue();
+    double blue = color.getBlueValue();
+
+    red /= 255;
+    green /= 255;
+    blue /= 255;
+
+    double max;
+    double min;
+
+    if (red >= green && red >= blue) {
+        max = red;
+    } else if (green >= red && green >= blue) {
+        max = green;
+    } else if (blue >= red && blue >= green) {
+        max = blue;
+    }
+
+    if (red <= green && red <= blue) {
+        min = red;
+    } else if (green <= red && green <= blue) {
+        min = green;
+    } else if (blue <= red && blue <= green) {
+        min = blue;
+    }
+
+    double l = (min + max) / 2.0;
+
+    double sat;
+    double hue;
+
+    if (max == min) {
+        sat = 0;
+        hue = 0;
+    } else if (l <= 0.5) {
+        sat = (max-min)/(max+min);
+    } else if (l > 0.5) {
+        sat = (max-min)/(2.0-max-min);
+    }
+
+    double h;
+
+    if (red == max) {
+        h = (green - blue)/(max-min);
+    } else if (green == max) {
+        h = (2.0) + (blue-red)/(max-min);
+    } else if (blue == max) {
+        h = (4.0) + (red-green)/(max-min);
+    }
+
+    h *= 60;
+
+    if (h < 0) {
+        h += 360;
+    }
+
+    HSLColor* nc = new HSLColor(h, sat, l);
+    return nc;
+}
+
 
 int main() {
     /*
@@ -275,6 +349,10 @@ int main() {
     HSLColor test(136, .54, .43);
     RGBColor* ptr = convertHSLtoRGB(test);
     cout << *ptr;
+
+    RGBColor test2(50, 168, 82);
+    HSLColor* ptr2 = convertRGBtoHSL(test2);
+    cout << *ptr2;
 
     return 0;    
 }

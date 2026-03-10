@@ -11,7 +11,7 @@ int main(){
     cin>>closetName;
     cout<<"What is the weather looking like today? Please Input Fahrenheit value: "<<endl;
     cin>>weather;
-    if (weather >=70){
+    if (weather >= 70){
 
     }
     else if(weather < 70){
