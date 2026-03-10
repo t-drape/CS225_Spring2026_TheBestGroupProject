@@ -238,6 +238,10 @@ RGBColor* convertHSLtoRGB(HSLColor& color) {
 }
 
 HSLColor* convertRGBtoHSL(RGBColor& color) {
+    /*
+    References: https://www.niwa.nu/2013/05/math-behind-colorspace-conversions-rgb-hsl/
+    */
+
     double red = color.getRedValue();
     double green = color.getGreenValue();
     double blue = color.getBlueValue();
