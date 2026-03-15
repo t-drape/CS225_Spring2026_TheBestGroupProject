@@ -43,18 +43,18 @@ class Clothes : public HSLColor {
             hue = h;
             saturation = s;
             lightness = l;
+
             /* 
             Find last ID in closet,
             Initialization List to set ID variable,
             Pass values from menu,
             set all variables to values
-            Add Piece to Closet
             */
         }
 
         // addToCloset(Clothes& piece) {
         //     /*
-        //     Write Dat fields as new row in Closet.csv
+        //     Write Data fields as new row in Closet.csv
         //     */
         // }
 };
