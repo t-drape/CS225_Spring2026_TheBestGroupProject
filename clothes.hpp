@@ -71,9 +71,28 @@ class Clothes : public HSLColor {
         Pass values from menu,
         set all variables to values
         */
-        // addToCloset(Clothes& piece) {
-        //     /*
-        //     Write Data fields as new row in Closet.csv
-        //     */
-        // }
+
+        /* addToCloset(Clothes& piece) {
+             Write Data fields as new row in Closet.csv   
+        */ 
+
+        /* removeFromCloset(ID) {
+            Display all items in the closet.
+            Get user input of ID.
+            Save to integer.
+            Confirm deletion.
+            Once confirmed, remove the row from the file.
+        }*/
+
+        /*
+            Note: 
+            The IDS will not shift on deletion. This is fine. We have an incrementing count,
+            ensuring that no new piece of clothing shares an ID or overwrites an old one.
+            For example,
+            1) The first piece of clothing in the file is deleted. This does not affect insertion, as new pieces
+            will still be appended to the file without change.
+            2) The last piece of clothing is deleted. When the user adds a piece of clothing, then the ID spot is overwritten,
+            but the old piece is no longer needed, so this is proper functionality. 
+        */
+        
 };
