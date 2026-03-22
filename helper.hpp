@@ -22,6 +22,7 @@ int getNextID(const string file) {
     string str;
 
     getline(f, str); // Skip the header line
+
     // This line ensures that the program runs correctly with empty closet files (only the header line)
     if (f.eof()) {
         return 0;
