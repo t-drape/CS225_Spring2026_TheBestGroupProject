@@ -1,32 +1,12 @@
+/*
+Purpose:
+This header file defines the integral class of our program- our Clothes class definition.
+This file includes the auxiliary header files to improve readability and separation of concerns.
+*/
+
 #include "colors.hpp"
-#include <fstream>
-#include <sstream>
-
-using namespace std;
-
-const string CLOSET_PATH = "./Closet.csv";
-
-int getNextID(const string file) {
-    /*
-    Reference: Google AI overview of reading a CSV in C++
-    */
-
-    ifstream f(file);
-    int num;
-    string field;
-    string str;
-
-    getline(f, str); // Skip the header line
-
-    while (getline(f, str)) {
-        stringstream parser(str);
-        // Must be single quotes, otherwise it reads the character as a string, throwing an error
-        getline(parser, field, ',');
-    }
-    num = stoi(field);
-    ++num;
-    return num;
-}
+#include "helper.hpp"
+#include <vector>
 
 class Clothes : public HSLColor {
     private:
@@ -36,25 +16,86 @@ class Clothes : public HSLColor {
         int type; // Defines tops versus bottoms, 1 for top, 0 for bottoms
     
     public:
-        Clothes(string graphics, int weather, int type, double h, double s, double l) : ID(getNextID(CLOSET_PATH)) {
+        Clothes(string graphics, int weather, int type, double h, double s, double l, int id=getNextID(CLOSET_PATH)) : ID(id) {
             this->graphics = graphics;
             this->weather = weather;
             this->type = type;
             hue = h;
             saturation = s;
             lightness = l;
-
-            /* 
-            Find last ID in closet,
-            Initialization List to set ID variable,
-            Pass values from menu,
-            set all variables to values
-            */
         }
 
-        // addToCloset(Clothes& piece) {
-        //     /*
-        //     Write Data fields as new row in Closet.csv
-        //     */
-        // }
+        // Use a reference to reduce memory usage, (pass by reference, not pass by value)
+        vector<Clothes> matchingClothes(vector<Clothes>& closet, double* hues) {
+            int loops = 0;
+            bool match = false;
+            vector<Clothes> matches;
+            /*
+            Loop until match found,
+            Each iteration, increase range by 10%, = add/subtract 36 degrees from each value
+            */
+            do {
+                /*
+                For clothes in partitioned closet,
+                If hue is within range,
+                Add to matchingColor Linked list of Clothes objects
+                */
+                for(int i = 0; i < closet.size(); i++) {
+                    // 4 is the number of tetradic hues
+                    if (closet[i].type != type) {
+                        for (int j = 0; j < 4; j++) {
+                        /*
+                        Originally, I expanded both sides. This led to too many colors included.
+                        So, the lower bound equals the original value, the upper bound equals the computed value.
+                        */
+                            double upperBound = hues[j] + (36 * loops);
+                            if (upperBound > 359) {
+                                upperBound -= 360;
+                            }
+                            if (inRange(closet[i].getHue(), hues[j], upperBound)) {
+                                // Change to a Clothes Object once we have full project developed
+                                matches.push_back(closet[i]);
+                                match = true;
+                            }
+                        }
+                    }
+                }
+                loops++;
+            } while (match == false);
+            return matches;
+        }
+
+        /* 
+        Find last ID in closet,
+        Initialization List to set ID variable,
+        Pass values from menu,
+        set all variables to values
+        */
+
+        void addToCloset() {
+            /*
+                References:
+                    GoogleAI Overview of appending to a file in C++.
+                    GoogleAI Overview of writing to a CSV file in C++.
+            */
+            cout << "Adding Piece to Collection: ID = " << ID << "." << endl;
+            ofstream closetFile;
+            closetFile.open(CLOSET_PATH, std::ios::app);
+            closetFile << "\n" << ID << "," << graphics << "," << weather << "," << type << "," << hue << "," << saturation << "," << lightness;
+            closetFile.close();
+
+            // Write Data fields as new row in Closet.csv
+        }
+
+        /*
+            Note: 
+            The IDS will not shift on deletion. This is fine. We have an incrementing count,
+            ensuring that no new piece of clothing shares an ID or overwrites an old one.
+            For example,
+            1) The first piece of clothing in the file is deleted. This does not affect insertion, as new pieces
+            will still be appended to the file without change.
+            2) The last piece of clothing is deleted. When the user adds a piece of clothing, then the ID spot is overwritten,
+            but the old piece is no longer needed, so this is proper functionality. 
+        */
+        
 };
