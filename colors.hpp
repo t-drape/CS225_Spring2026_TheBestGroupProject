@@ -1,3 +1,9 @@
+/*
+Purpose: 
+This header file defines the major color types we use throughout the system. Additionally, we define
+two conversion functions that are not class-specific, but allow us to convert between the color classes we have defined.
+*/
+
 #include <iostream>
 
 using namespace std;
