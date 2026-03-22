@@ -16,7 +16,7 @@ class Clothes : public HSLColor {
         int type; // Defines tops versus bottoms, 1 for top, 0 for bottoms
     
     public:
-        Clothes(string graphics, int weather, int type, double h, double s, double l) : ID(getNextID(CLOSET_PATH)) {
+        Clothes(string graphics, int weather, int type, double h, double s, double l, int id=getNextID(CLOSET_PATH)) : ID(id) {
             this->graphics = graphics;
             this->weather = weather;
             this->type = type;
@@ -84,17 +84,8 @@ class Clothes : public HSLColor {
             closetFile << "\n" << ID << "," << graphics << "," << weather << "," << type << "," << hue << "," << saturation << "," << lightness;
             closetFile.close();
 
-            // Write Data fields as new row in Closet.csv   
+            // Write Data fields as new row in Closet.csv
         }
-        
-
-        /* removeFromCloset(ID) {
-            Display all items in the closet.
-            Get user input of ID.
-            Save to integer.
-            Confirm deletion.
-            Once confirmed, remove the row from the file.
-        }*/
 
         /*
             Note: 

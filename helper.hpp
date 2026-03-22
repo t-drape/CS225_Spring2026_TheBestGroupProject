@@ -59,3 +59,24 @@ double* tetradicPaletteGenerator(double hue) {
     }
     return colorPaletteHues;
 }
+
+void displayClothes() {
+    ifstream closetFile(CLOSET_PATH);
+    string line;
+    while(!closetFile.eof()) {
+        closetFile >> line;
+        cout << "From file: " << line << endl;
+    }
+}
+
+/* For deletion: 
+    Display all items in the closet.
+    Read all Clothes objects into a vector.
+    Get user input of ID.
+    Save to integer.
+    Confirm deletion.
+    Open Closet file in write mode (This overwrites all previous content, VERY DANGEROUS!)
+    Once confirmed, begin loop:
+        Save to file if clothes object ID does not equal delete ID
+
+*/
