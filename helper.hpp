@@ -10,6 +10,7 @@ Additionally, this header file contains our global variables, such as the predef
 using namespace std;
 
 const string CLOSET_PATH = "./Closet.csv";
+const string FILE_BAD_MESSAGE = "Error opening the file.";
 
 int getNextID(const string file) {
     /*
@@ -20,8 +21,12 @@ int getNextID(const string file) {
     int num = -1;
     string field;
     string str;
+    if (!f.good()) {
+        throw(FILE_BAD_MESSAGE);
+    }
 
     getline(f, str); // Skip the header line
+
     // This line ensures that the program runs correctly with empty closet files (only the header line)
     if (f.eof()) {
         return 0;

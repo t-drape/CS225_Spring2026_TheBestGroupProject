@@ -7,8 +7,15 @@ vector<Clothes> createCloset(const string filePath) {
     Purpose: Create a vector representation of the Clothes objects in the user's closet file
     References: C++ documentation on std::stod function
     */
+    bool allOneType = true;
     vector<Clothes> closet;
+    int lastType = -1;
     ifstream closetFile(filePath);
+
+    if (!closetFile.good()) {
+        throw(FILE_BAD_MESSAGE);
+    }
+
     int ID;
     string graphics;
     int weather;
@@ -32,6 +39,12 @@ vector<Clothes> createCloset(const string filePath) {
         weather = stoi(field);
         getline(parser, field, ',');
         type = stoi(field);
+        if (lastType == -1) {
+            lastType = type;
+        }
+        if (type != lastType) {
+            allOneType = false;
+        }
         getline(parser, field, ',');
         hue = stod(field);
         getline(parser, field, ',');
@@ -39,6 +52,9 @@ vector<Clothes> createCloset(const string filePath) {
         getline(parser, field, '\n');
         light = stod(field);
         closet.push_back(Clothes(graphics, weather, type, hue, sat, light, ID));
+    }
+    if (allOneType) {
+        throw(type);
     }
     return closet;
 }
@@ -53,23 +69,41 @@ int main() {
             Future feature expansion includes deletion. Removing clothes from the CSV file is beyond the scope of this project, however,
             it is a feature that we will try to include later on in the development process.
 
+            Unique error: If the closet file has no clothes, but has an extra line (besides the header), then the program will not work correctly.
+
     */
     cout << "Main program." << endl;
     string g = "Hello";
-    Clothes h(g, 1,1,0,0,0, 0);
-    vector<Clothes> cloth;
 
-    cloth = createCloset(CLOSET_PATH);
-    for(int i = 0; i < cloth.size(); i++) {
-        cout << cloth[i];
+    try {
+        Clothes e(g, 1,0,0,0,0);
+        e.addToCloset();
+        Clothes f(g, 1,0,325,.71,.39);
+        f.addToCloset();
+        Clothes m(g, 1,0,235,.71,.39);
+        m.addToCloset();
+        Clothes h(g, 1,1,145,.71,.39);
+        h.addToCloset();
+        vector<Clothes> cloth;
+        cloth = createCloset(CLOSET_PATH);
+        double* colorPaletteHues = tetradicPaletteGenerator(h.getHue());
+        vector<Clothes> matches = h.matchingClothes(cloth, colorPaletteHues);
+        cout << "Matching Clothes:" << endl;
+        for(int i = 0; i < matches.size(); i++) {
+            RGBColor* r1 = convertHSLtoRGB(matches[i]);
+            cout << *r1;
+
+        }
     }
-    
-    double* colorPaletteHues = tetradicPaletteGenerator(h.getHue());
-    vector<Clothes> matches = h.matchingClothes(cloth, colorPaletteHues);
-    cout << "Matching Clothes:" << endl;
-    for(int i = 0; i < matches.size(); i++) {
-        cout << matches[i];
+    catch(int m) {
+        if(m == 1) {
+            cout << "Sorry, your closet currently only contains tops. We cannot create outfits without bottoms." << endl;
+        } else {
+            cout << "Sorry, your closet currently only contains bottoms. We cannot create outfits without tops." << endl;
+        }
     }
-    // vector<Clothes> clothes({a,b,c,d,e,f,m,h});
+    catch(string msg) {
+        cout << msg << endl;
+    }
     return 0;
 }

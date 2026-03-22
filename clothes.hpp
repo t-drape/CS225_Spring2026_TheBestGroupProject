@@ -77,6 +77,8 @@ class Clothes : public HSLColor {
                 References:
                     GoogleAI Overview of appending to a file in C++.
                     GoogleAI Overview of writing to a CSV file in C++.
+                    GoogleAI Overview of append mode if no file exists.
+                    Note: If the specified file does not exist, then, with append, a new empty file is created.
             */
             cout << "Adding Piece to Collection: ID = " << ID << "." << endl;
             ofstream closetFile;
