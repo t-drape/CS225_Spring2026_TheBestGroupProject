@@ -10,7 +10,7 @@ Grok for seeing how to implement python in a C++ program
 */
 
 vector<int> getColors() {
-    vector<int> colors(3);
+    vector<int> colors;
     std::system("python3 color_picker.py");
     ifstream fin("chosen_color.txt");
     string r;
