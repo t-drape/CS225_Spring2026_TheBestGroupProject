@@ -11,6 +11,28 @@ using namespace std;
 
 const string CLOSET_PATH = "./Closet.csv";
 
+int getNextID(const string file) {
+    /*
+    Reference: Google AI overview of reading a CSV in C++
+    */
+
+    ifstream f(file);
+    int num;
+    string field;
+    string str;
+
+    getline(f, str); // Skip the header line
+
+    while (getline(f, str)) {
+        stringstream parser(str);
+        // Must be single quotes, otherwise it reads the character as a string, throwing an error
+        getline(parser, field, ',');
+    }
+    num = stoi(field);
+    ++num;
+    return num;
+}
+
 bool inRange(double value, double lowerBound, double upperBound) {
     if (value >= lowerBound && value <= upperBound) {
         return true;
@@ -36,26 +58,4 @@ double* tetradicPaletteGenerator(double hue) {
         colorPaletteHues[i] = newValue;
     }
     return colorPaletteHues;
-}
-
-int getNextID(const string file) {
-    /*
-    Reference: Google AI overview of reading a CSV in C++
-    */
-
-    ifstream f(file);
-    int num;
-    string field;
-    string str;
-
-    getline(f, str); // Skip the header line
-
-    while (getline(f, str)) {
-        stringstream parser(str);
-        // Must be single quotes, otherwise it reads the character as a string, throwing an error
-        getline(parser, field, ',');
-    }
-    num = stoi(field);
-    ++num;
-    return num;
 }

@@ -72,9 +72,21 @@ class Clothes : public HSLColor {
         set all variables to values
         */
 
-        /* addToCloset(Clothes& piece) {
-             Write Data fields as new row in Closet.csv   
-        */ 
+        void addToCloset() {
+            /*
+                References:
+                    GoogleAI Overview of appending to a file in C++.
+                    GoogleAI Overview of writing to a CSV file in C++.
+            */
+            cout << "Adding Piece to Collection: ID = " << ID << "." << endl;
+            ofstream closetFile;
+            closetFile.open(CLOSET_PATH, std::ios::app);
+            closetFile << "\n" << ID << "," << graphics << "," << weather << "," << type << "," << hue << "," << saturation << "," << lightness;
+            closetFile.close();
+
+            // Write Data fields as new row in Closet.csv   
+        }
+        
 
         /* removeFromCloset(ID) {
             Display all items in the closet.

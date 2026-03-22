@@ -19,6 +19,8 @@ int main() {
     Clothes m(g, 1,1,1,0,0);
     Clothes h(g, 1,1,0,0,0);
 
+    h.addToCloset();
+
     vector<Clothes> cloth;
     cloth.push_back(a);
     cloth.push_back(b);
