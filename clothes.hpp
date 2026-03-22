@@ -1,10 +1,18 @@
 #include "colors.hpp"
 #include <fstream>
 #include <sstream>
+#include <vector>
 
 using namespace std;
 
 const string CLOSET_PATH = "./Closet.csv";
+
+bool inRange(double value, double lowerBound, double upperBound) {
+    if (value >= lowerBound && value <= upperBound) {
+        return true;
+    }
+    return false;
+}
 
 int getNextID(const string file) {
     /*
@@ -43,15 +51,51 @@ class Clothes : public HSLColor {
             hue = h;
             saturation = s;
             lightness = l;
-
-            /* 
-            Find last ID in closet,
-            Initialization List to set ID variable,
-            Pass values from menu,
-            set all variables to values
+        }
+        
+        vector<Clothes> matchingClothes(vector<Clothes>& closet, double* hues) {
+            int loops = 0;
+            bool match = false;
+            vector<Clothes> matches;
+            /*
+            Loop until match found,
+            Each iteration, increase range by 10%, = add/subtract 36 degrees from each value
             */
+            do {
+                /*
+                For clothes in partitioned closet,
+                If hue is within range,
+                Add to matchingColor Linked list of Clothes objects
+                */
+                for(int i = 0; i < closet.size(); i++) {
+                    // 4 is the number of tetradic hues
+                    for (int j = 0; j < 4; j++) {
+                        /*
+                        Originally, I expanded both sides. This led to too many colors included.
+                        So, the lower bound equals the original value, the upper bound equals the computed value.
+                        */
+                        double upperBound = hues[j] + (36 * loops);
+                        if (upperBound > 359) {
+                            upperBound -= 360;
+                        }
+                        if (inRange(closet[i].getHue(), hues[j], upperBound)) {
+                            // Change to a Clothes Object once we have full project developed
+                            matches.push_back(closet[i]);
+                            match = true;
+                        }
+                    }
+                }
+                loops++;
+            } while (match == false);
+            return matches;
         }
 
+        /* 
+        Find last ID in closet,
+        Initialization List to set ID variable,
+        Pass values from menu,
+        set all variables to values
+        */
         // addToCloset(Clothes& piece) {
         //     /*
         //     Write Data fields as new row in Closet.csv
