@@ -15,7 +15,7 @@ vector<Clothes> createCloset(const string filePath) {
     if (!closetFile.good()) {
         throw(FILE_BAD_MESSAGE);
     }
-    
+
     int ID;
     string graphics;
     int weather;
@@ -76,21 +76,13 @@ int main() {
     string g = "Hello";
 
     try {
-        Clothes a(g, 1,0,146,0,0);
-        a.addToCloset();
-        Clothes b(g, 1,0,136,0,0);
-        b.addToCloset();
-        Clothes c(g, 1,0,219,0,0);
-        c.addToCloset();
-        Clothes d(g, 1,0,218,0,0);
-        d.addToCloset();
-        Clothes e(g, 1,0,217,0,0);
+        Clothes e(g, 1,0,0,0,0);
         e.addToCloset();
-        Clothes f(g, 1,0,36,0,0);
+        Clothes f(g, 1,0,325,.71,.39);
         f.addToCloset();
-        Clothes m(g, 1,0,1,0,0);
+        Clothes m(g, 1,0,235,.71,.39);
         m.addToCloset();
-        Clothes h(g, 1,1,0,0,0);
+        Clothes h(g, 1,1,145,.71,.39);
         h.addToCloset();
         vector<Clothes> cloth;
         cloth = createCloset(CLOSET_PATH);
@@ -98,7 +90,9 @@ int main() {
         vector<Clothes> matches = h.matchingClothes(cloth, colorPaletteHues);
         cout << "Matching Clothes:" << endl;
         for(int i = 0; i < matches.size(); i++) {
-            cout << matches[i];
+            RGBColor* r1 = convertHSLtoRGB(matches[i]);
+            cout << *r1;
+
         }
     }
     catch(int m) {

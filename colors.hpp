@@ -81,10 +81,10 @@ RGBColor* convertHSLtoRGB(HSLColor& color) {
         chromaP2 *= -1;
     }
     double chroma = (1 - chromaP2) * color.getSaturation();
-    cout << "Chroma: " << chroma << endl;
+    // cout << "Chroma: " << chroma << endl;
 
     double hue_derivative = color.getHue() / 60.0;
-    cout << "Hue Derivative: " << hue_derivative << endl;
+    // cout << "Hue Derivative: " << hue_derivative << endl;
 
     // X = C * (1 - |(H' % 2) - 1|})
     double xP3 = (fmod(hue_derivative, 2.0)) - 1;
@@ -92,7 +92,7 @@ RGBColor* convertHSLtoRGB(HSLColor& color) {
         xP3 *= -1;
     }
     double x = chroma * (1 - xP3);
-    cout << "X: " << x << endl;
+    // cout << "X: " << x << endl;
 
     double r,g,b = 0;
     if (hue_derivative <= 1) {
@@ -116,13 +116,13 @@ RGBColor* convertHSLtoRGB(HSLColor& color) {
     }
 
     double m = color.getLightness() - (chroma / 2);
-    cout << "M: " << m << endl;
+    // cout << "M: " << m << endl;
 
-    cout << "R1, G1, B1: " << r << ", " << g<< ", " << b << endl;
+    // cout << "R1, G1, B1: " << r << ", " << g<< ", " << b << endl;
     r += m;
     g += m;
     b += m;
-    cout << "R1+m, G1+m, B1+m: " << r << ", " << g<< ", " << b << endl;
+    // cout << "R1+m, G1+m, B1+m: " << r << ", " << g<< ", " << b << endl;
 
     RGBColor* nc = new RGBColor(r * 255, g * 255, b * 255);
     return nc;

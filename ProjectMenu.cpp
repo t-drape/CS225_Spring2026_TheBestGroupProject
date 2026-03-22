@@ -1,4 +1,7 @@
 #include<iostream>
+#include "read.hpp"
+#include "clothes.hpp"
+
 using namespace std;
 
 int main(){
@@ -29,7 +32,25 @@ int main(){
     cout<<"Would you like to add things to your closet "<<closetName<<" ?: yes or no"<<endl;
     cin>>addToCloset;
     if (addToCloset == "yes"){
-        
+        string g = "Hello";
+        int weather = 1;
+        int type = 1;
+        vector<int> colorVector = getColors();
+        RGBColor rgb = RGBColor(colorVector[0], colorVector[1], colorVector[2]);
+        HSLColor* hsl = convertRGBtoHSL(rgb);
+        double hue = hsl->getHue();
+        double sat = hsl->getSaturation();
+        double light = hsl->getLightness();
+        delete hsl;
+        Clothes nc = Clothes(g, weather, type, hue, sat, light);
+        nc.addToCloset();
+        /* 
+        Have the user specify graphics, weather, type, etc.
+        Then, use the color dialog to select the closest color.
+        Create a clothes object with the data.
+        Save to CSV.
+        */
+
     }
     if (addToCloset =="no"){
         cout<<"Would you like to choose an outfit now?: yes or no"<<endl;
