@@ -2,14 +2,20 @@
 #include <iostream>
 
 int main() {
-    cout << "Main program.";
+    /*
+        Note: 
+            MatchingClothes will get stuck in an infinite loop if the closet contains only a single type of clothing.
+            For example, if a person has only type=1 clothes, then the loop will continue to expand, and will not find any matches,
+            since it only matches for type=0 clothes. 
+    */
+    cout << "Main program." << endl;
     string g = "Hello";
     Clothes a(g, 1,1,146,0,0);
     Clothes b(g, 1,1,136,0,0);
     Clothes c(g, 1,1,219,0,0);
     Clothes d(g, 1,1,218,0,0);
     Clothes e(g, 1,1,217,0,0);
-    Clothes f(g, 1,1,36,0,0);
+    Clothes f(g, 1,0,36,0,0);
     Clothes m(g, 1,1,1,0,0);
     Clothes h(g, 1,1,0,0,0);
 

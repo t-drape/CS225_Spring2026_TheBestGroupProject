@@ -42,19 +42,21 @@ class Clothes : public HSLColor {
                 */
                 for(int i = 0; i < closet.size(); i++) {
                     // 4 is the number of tetradic hues
-                    for (int j = 0; j < 4; j++) {
+                    if (closet[i].type != type) {
+                        for (int j = 0; j < 4; j++) {
                         /*
                         Originally, I expanded both sides. This led to too many colors included.
                         So, the lower bound equals the original value, the upper bound equals the computed value.
                         */
-                        double upperBound = hues[j] + (36 * loops);
-                        if (upperBound > 359) {
-                            upperBound -= 360;
-                        }
-                        if (inRange(closet[i].getHue(), hues[j], upperBound)) {
-                            // Change to a Clothes Object once we have full project developed
-                            matches.push_back(closet[i]);
-                            match = true;
+                            double upperBound = hues[j] + (36 * loops);
+                            if (upperBound > 359) {
+                                upperBound -= 360;
+                            }
+                            if (inRange(closet[i].getHue(), hues[j], upperBound)) {
+                                // Change to a Clothes Object once we have full project developed
+                                matches.push_back(closet[i]);
+                                match = true;
+                            }
                         }
                     }
                 }
