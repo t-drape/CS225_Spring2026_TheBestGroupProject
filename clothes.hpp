@@ -14,6 +14,26 @@ bool inRange(double value, double lowerBound, double upperBound) {
     return false;
 }
 
+double* tetradicPaletteGenerator(double hue) {
+    /*
+    References:
+    color function: https://customstickers.com/community/blog/how-to-calculate-complementary-triadic-and-tetradic-colors-from-a-hex-code?srsltid=AfmBOoqEuD3xMxsxkL3ULkV0TfeZKsFD4GemfKF8-prqylBgYfmWh-Bo
+    return array: https://www.digitalocean.com/community/tutorials/return-array-in-c-plus-plus-function
+    */
+
+    static double colorPaletteHues[4];
+    // Assign tetradic hue values to palette array 
+    for (int i = 0; i < 4; i++) {
+        int offset = 90 * i;
+        double newValue = hue + offset;
+        if (newValue > 359) {
+            newValue -= 360;
+        }
+        colorPaletteHues[i] = newValue;
+    }
+    return colorPaletteHues;
+}
+
 int getNextID(const string file) {
     /*
     Reference: Google AI overview of reading a CSV in C++
@@ -52,7 +72,8 @@ class Clothes : public HSLColor {
             saturation = s;
             lightness = l;
         }
-        
+
+        // Use a reference to reduce memory usage, (pass by reference, not pass by value)
         vector<Clothes> matchingClothes(vector<Clothes>& closet, double* hues) {
             int loops = 0;
             bool match = false;

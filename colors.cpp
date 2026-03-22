@@ -4,65 +4,6 @@
 
 using namespace std;
 
-double* tetradicPaletteGenerator(double hue) {
-    /*
-    References:
-    color function: https://customstickers.com/community/blog/how-to-calculate-complementary-triadic-and-tetradic-colors-from-a-hex-code?srsltid=AfmBOoqEuD3xMxsxkL3ULkV0TfeZKsFD4GemfKF8-prqylBgYfmWh-Bo
-    return array: https://www.digitalocean.com/community/tutorials/return-array-in-c-plus-plus-function
-    */
-
-    static double colorPaletteHues[4];
-    // Assign tetradic hue values to palette array 
-    for (int i = 0; i < 4; i++) {
-        int offset = 90 * i;
-        double newValue = hue + offset;
-        if (newValue > 359) {
-            newValue -= 360;
-        }
-        colorPaletteHues[i] = newValue;
-    }
-    return colorPaletteHues;
-}
-
-// Use a reference to reduce memory usage, (pass by reference, not pass by value)
-// vector<Clothes> matchingClothes(vector<Clothes>& closet, double* hues) {
-//     int loops = 0;
-//     bool match = false;
-//     vector<Clothes> matches;
-//     /*
-//     Loop until match found,
-//     Each iteration, increase range by 10%, = add/subtract 36 degrees from each value
-//     */
-//     do {
-//         /*
-//         For clothes in partitioned closet,
-//         If hue is within range,
-//         Add to matchingColor Linked list of Clothes objects
-//         */
-//         for(int i = 0; i < closet.size(); i++) {
-//             // 4 is the number of tetradic hues
-//             for (int j = 0; j < 4; j++) {
-//                 /*
-//                 Originally, I expanded both sides. This led to too many colors included.
-//                 So, the lower bound equals the original value, the upper bound equals the computed value.
-//                 */
-//                 double upperBound = hues[j] + (36 * loops);
-//                 if (upperBound > 359) {
-//                     upperBound -= 360;
-//                 }
-//                 if (inRange(closet[i].getHue(), hues[j], upperBound)) {
-//                     // Change to a Clothes Object once we have full project developed
-//                     matches.push_back(closet[i]);
-//                     match = true;
-//                 }
-//             }
-//         }
-//         loops++;
-//     } while (match == false);
-//     cout << loops;
-//     return matches;
-// }
-
 int main() {
     string g = "Hello";
     Clothes a(g, 1,1,146,0,0);
