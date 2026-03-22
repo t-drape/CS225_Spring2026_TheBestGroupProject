@@ -17,11 +17,15 @@ int getNextID(const string file) {
     */
 
     ifstream f(file);
-    int num;
+    int num = -1;
     string field;
     string str;
 
     getline(f, str); // Skip the header line
+    // This line ensures that the program runs correctly with empty closet files (only the header line)
+    if (f.eof()) {
+        return 0;
+    }
 
     while (getline(f, str)) {
         stringstream parser(str);

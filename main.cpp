@@ -4,6 +4,7 @@
 
 vector<Clothes> createCloset(const string filePath) {
     /*
+    Purpose: Create a vector representation of the Clothes objects in the user's closet file
     References: C++ documentation on std::stod function
     */
     vector<Clothes> closet;
@@ -55,29 +56,13 @@ int main() {
     */
     cout << "Main program." << endl;
     string g = "Hello";
-    Clothes a(g, 1,1,146,0,0);
-    // Clothes b(g, 1,1,136,0,0);
-    // Clothes c(g, 1,1,219,0,0);
-    // Clothes d(g, 1,1,218,0,0);
-    // Clothes e(g, 1,1,217,0,0);
-    // Clothes f(g, 1,0,36,0,0);
-    // Clothes m(g, 1,1,1,0,0);
     Clothes h(g, 1,1,0,0,0, 0);
-    // a.addToCloset()
     vector<Clothes> cloth;
 
     cloth = createCloset(CLOSET_PATH);
     for(int i = 0; i < cloth.size(); i++) {
         cout << cloth[i];
     }
-
-    // cloth.push_back(a);
-    // cloth.push_back(b);
-    // cloth.push_back(c);
-    // cloth.push_back(d);
-    // cloth.push_back(e);
-    // cloth.push_back(f);
-    // cloth.push_back(m);
     
     double* colorPaletteHues = tetradicPaletteGenerator(h.getHue());
     vector<Clothes> matches = h.matchingClothes(cloth, colorPaletteHues);
