@@ -56,13 +56,10 @@ int main() {
     */
     cout << "Main program." << endl;
     string g = "Hello";
-    Clothes h(g, 1,1,0,0,0, 0);
+    // Clothes h(g, 1,1,0,0,0, 0);
     vector<Clothes> cloth;
 
     cloth = createCloset(CLOSET_PATH);
-    for(int i = 0; i < cloth.size(); i++) {
-        cout << cloth[i];
-    }
     
     double* colorPaletteHues = tetradicPaletteGenerator(h.getHue());
     vector<Clothes> matches = h.matchingClothes(cloth, colorPaletteHues);
