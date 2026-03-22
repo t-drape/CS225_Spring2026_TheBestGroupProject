@@ -11,6 +11,11 @@ vector<Clothes> createCloset(const string filePath) {
     vector<Clothes> closet;
     int lastType = -1;
     ifstream closetFile(filePath);
+
+    if (!closetFile.good()) {
+        throw(FILE_BAD_MESSAGE);
+    }
+    
     int ID;
     string graphics;
     int weather;
@@ -69,26 +74,25 @@ int main() {
     */
     cout << "Main program." << endl;
     string g = "Hello";
-    Clothes a(g, 1,0,146,0,0);
-    a.addToCloset();
-    Clothes b(g, 1,0,136,0,0);
-    b.addToCloset();
-    Clothes c(g, 1,0,219,0,0);
-    c.addToCloset();
-    Clothes d(g, 1,0,218,0,0);
-    d.addToCloset();
-    Clothes e(g, 1,0,217,0,0);
-    e.addToCloset();
-    Clothes f(g, 1,0,36,0,0);
-    f.addToCloset();
-    Clothes m(g, 1,0,1,0,0);
-    m.addToCloset();
-    Clothes h(g, 1,0,0,0,0);
-    h.addToCloset();
-
-    vector<Clothes> cloth;
 
     try {
+        Clothes a(g, 1,0,146,0,0);
+        a.addToCloset();
+        Clothes b(g, 1,0,136,0,0);
+        b.addToCloset();
+        Clothes c(g, 1,0,219,0,0);
+        c.addToCloset();
+        Clothes d(g, 1,0,218,0,0);
+        d.addToCloset();
+        Clothes e(g, 1,0,217,0,0);
+        e.addToCloset();
+        Clothes f(g, 1,0,36,0,0);
+        f.addToCloset();
+        Clothes m(g, 1,0,1,0,0);
+        m.addToCloset();
+        Clothes h(g, 1,1,0,0,0);
+        h.addToCloset();
+        vector<Clothes> cloth;
         cloth = createCloset(CLOSET_PATH);
         double* colorPaletteHues = tetradicPaletteGenerator(h.getHue());
         vector<Clothes> matches = h.matchingClothes(cloth, colorPaletteHues);
@@ -103,6 +107,9 @@ int main() {
         } else {
             cout << "Sorry, your closet currently only contains bottoms. We cannot create outfits without tops." << endl;
         }
+    }
+    catch(string msg) {
+        cout << msg << endl;
     }
     return 0;
 }
