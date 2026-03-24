@@ -1,3 +1,8 @@
+/*
+Purpose: 
+This header file defines helper functions that run the Python script for the color-picking GUI.
+*/
+
 #include <fstream>
 #include <cstdlib>
 #include <string>

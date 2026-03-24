@@ -12,7 +12,7 @@ class Clothes : public HSLColor {
     private:
         const int ID;
         string graphics;
-        int weather;
+        int weather; // Defines hot versus cold, 0 for cold, 1 for hot
         int type; // Defines tops versus bottoms, 1 for top, 0 for bottoms
     
     public:
