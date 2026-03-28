@@ -16,7 +16,7 @@ root.withdraw()
 color = colorchooser.askcolor(title="Select Clothing Color") # Array of two values, rgb = 0, hex = 1
 
 if color[0]:
-    with open("chosen_color.txt", "w", encoding="utf-8") as f:
+    with open("./../colorPicker/chosen_color.txt", "w", encoding="utf-8") as f:
         f.write(str(color[0][0]))
         f.write(" ")
         f.write(str(color[0][1]))

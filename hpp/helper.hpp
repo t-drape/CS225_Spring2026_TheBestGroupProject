@@ -7,6 +7,10 @@ Additionally, this header file contains our global variables, such as the predef
 #include <fstream>
 #include <sstream>
 
+enum {SHORTS, SHIRTS};
+enum {COLD, WARM};
+enum {NOT_COLORFUL, COLORFUL};
+
 using namespace std;
 
 const string CLOSET_PATH = "./../Closet.csv";
@@ -14,8 +18,14 @@ const string FILE_BAD_MESSAGE = "Error opening the file.";
 const string INSUFFICENT_CLOTHES_MESSAGE = "Sorry, you haven't added enough pieces to your closet yet. Add some more pieces then try again.";
 const string NO_MATCH_MESSAGE = "Sorry, you don't own clothes matching that description. Please try again.";
 
-const string LONG_SLEEVE_SHIRT_PATH = "./../displayFigures/LongSleeve_Tshirt.txt";
-const string PANT_PATH = "./../displayFigures/Pants.txt";
+const string TSHIRT_PATH = "./../displayFigures/tshirt.txt";
+const string SHORT_PATH = "./../displayFigures/shorts.txt";
+const string LONG_SLEEVE_SHIRT_PATH = "./../displayFigures/LongSleeveTshirt.txt";
+const string PANT_PATH = "./../displayFigures/pants.txt";
+
+void swap(double* a, double* b);
+
+// Change to function declaration
 
 int getNextID(const string file) {
     /*

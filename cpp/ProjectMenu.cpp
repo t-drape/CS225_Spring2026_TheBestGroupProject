@@ -406,22 +406,23 @@ int main(){
                     }
 
                     Clothes& top = shirts[chosenTopIndex];
-                    cout << "Top in HSL: " << shirts[chosenTopIndex];
 
                     vector<Clothes> bottoms = top.matchingClothes(fullCloset, tetradicPaletteGenerator(top.getHue()));
                     int chosenBottomIndex = 0;
                     if (bottoms.size() > 1) {
                         chosenBottomIndex = rand() % bottoms.size();
                     }
-                    cout << "Bottom in HSL: " << bottoms[chosenBottomIndex] << endl;
 
                     RGBColor* t = convertHSLtoRGB(shirts[chosenTopIndex]);
                     RGBColor* b = convertHSLtoRGB(bottoms[chosenBottomIndex]);
-                    cout << "Top: " << *t;
-                    cout << "\nBottom: " << *b;
 
-                    print_colored_rgb(t->getRedValue(), t->getGreenValue(), t->getBlueValue(), longSleeveShirt());
-                    print_colored_rgb(b->getRedValue(), b->getGreenValue(), b->getBlueValue(), pants());
+                    if (weather == WARM) {
+                        print_colored_rgb(t->getRedValue(), t->getGreenValue(), t->getBlueValue(), Tshirt());
+                        print_colored_rgb(t->getRedValue(), t->getGreenValue(), t->getBlueValue(), shorts());
+                    } else {
+                        print_colored_rgb(t->getRedValue(), t->getGreenValue(), t->getBlueValue(), longSleeveShirt());
+                        print_colored_rgb(b->getRedValue(), b->getGreenValue(), b->getBlueValue(), pants());
+                    }
                     delete t;
                     delete b;
                 }

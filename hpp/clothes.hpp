@@ -8,6 +8,16 @@ This file includes the auxiliary header files to improve readability and separat
 #include "./../hpp/helper.hpp"
 #include <vector>
 
+void swap(double* a, double* b) {
+    /*
+        Reference: Google AI overview of swap in C++
+    */
+    double temp;
+    temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
 class Clothes : public HSLColor {
     private:
         const int ID;
@@ -42,8 +52,6 @@ class Clothes : public HSLColor {
                 */
                 for(int i = 0; i < closet.size(); i++) {
                     // 4 is the number of tetradic hues
-                    
-                    // Remove the if statement, as I will only pass the partitioned closet of the opposite type
                     if (closet[i].type != type) {
                         for (int j = 0; j < 4; j++) {
                         /*
@@ -51,10 +59,15 @@ class Clothes : public HSLColor {
                         So, the lower bound equals the original value, the upper bound equals the computed value.
                         */
                             double upperBound = hues[j] + (36 * loops);
+                            double lowerBound = hues[j];
                             if (upperBound > 359) {
                                 upperBound -= 360;
                             }
-                            if (inRange(closet[i].getHue(), hues[j], upperBound)) {
+                            if (lowerBound > upperBound) {
+                                swap(&lowerBound, &upperBound);
+                            }
+
+                            if (inRange(closet[i].getHue(), lowerBound, upperBound)) {
                                 // Change to a Clothes Object once we have full project developed
                                 matches.push_back(closet[i]);
                                 match = true;
@@ -104,3 +117,6 @@ class Clothes : public HSLColor {
         
 };
 
+vector<Clothes> createCloset(const string filePath);
+vector<Clothes> findShirts(const string filePath, int w, int colorful, string chosenGraphic, int chosenType=SHIRTS);
+void addPiece();
