@@ -1,6 +1,7 @@
 #include<iostream>
 #include "read.hpp"
 #include "clothes.hpp"
+#include <climits>
 
 using namespace std;
 
@@ -60,9 +61,108 @@ vector<Clothes> createCloset(const string filePath) {
     }
     return closet;
 }
+
+vector<Clothes> createCloset(const string filePath, int w, int color, string graphic) {
+    /*
+    Purpose: Create a vector representation of the Clothes objects in the user's closet file
+    References: C++ documentation on std::stod function
+    */
+    bool allOneType = true;
+    vector<Clothes> closet;
+    int lastType = -1;
+    ifstream closetFile(filePath);
+
+    if (!closetFile.good()) {
+        throw(FILE_BAD_MESSAGE);
+    }
+
+    int ID;
+    string graphics;
+    int weather;
+    int type;
+    double hue;
+    double sat;
+    double light;
+
+    string inputLine;
+    string field;
+
+    getline(closetFile, inputLine); // Skip the header line
+
+    while(!closetFile.eof() && getline(closetFile, inputLine)) {
+        stringstream parser(inputLine);
+        getline(parser, field, ',');
+        ID = stoi(field);
+        getline(parser, field, ',');
+        graphics = field;
+        getline(parser, field, ',');
+        weather = stoi(field);
+        getline(parser, field, ',');
+        type = stoi(field);
+        if (lastType == -1) {
+            lastType = type;
+        }
+        if (type != lastType) {
+            allOneType = false;
+        }
+        getline(parser, field, ',');
+        hue = stod(field);
+        getline(parser, field, ',');
+        sat = stod(field);
+        getline(parser, field, '\n');
+        light = stod(field);
+        closet.push_back(Clothes(graphics, weather, type, hue, sat, light, ID));
+    }
+    if (allOneType) {
+        throw(type);
+    }
+    return closet;
+}
+
+void addPiece() {
+    int type = 0;
+    cout << "Is it a (0) Bottom or (1) Top piece?: ";
+    cin >> type;
+
+    while (!cin || type > 1 || type < 0) {
+        cin.clear();
+        cin.ignore(INT_MAX, '\n');
+        cout << "Invalid Input. Is it a (0) Bottom or (1) Top piece?: ";
+        cin >> type;
+    }
+
+    int weather = 0;
+    cout << "Is this a (0) Fall/Winter [cold] or (1) Spring/Summer [warm] piece?: ";
+    cin >> weather;
+
+    while (!cin || weather > 1 || weather < 0) {
+        cin.clear();
+        cin.ignore(INT_MAX, '\n');
+        cout << "Invalid Input. Is this a (0) Fall/Winter [cold] or (1) Spring/Summer [warm] piece?: ";
+        cin >> weather;
+    }
+
+    string graphic = "None";
+    cout << "What graphic? (Leave Blank for None)" << endl;
+    getline(cin, graphic);
+    getline(cin, graphic);
+
+    cout << "Choose your Color from the Color Dialog." << endl;
+    vector<int> colorVector = getColors();
+    RGBColor rgb = RGBColor(colorVector[0], colorVector[1], colorVector[2]);
+    HSLColor* hsl = convertRGBtoHSL(rgb);
+    double hue = hsl->getHue();
+    double sat = hsl->getSaturation();
+    double light = hsl->getLightness();
+    delete hsl;
+    Clothes nc = Clothes(graphic, weather, type, hue, sat, light);
+    nc.addToCloset();
+}
+
+
 int main(){
     string closetName;
-    string addToCloset;
+    string addToCloset = "hello";
     int weather;
     string colorful;
     string chooseOutfit;
@@ -73,6 +173,49 @@ int main(){
     cout<<"Would you like to add an item to the closet? yes or no "<<endl;
     cin>>addToCloset;
     if (addToCloset == "yes"){
+        addPiece();
+        // int type = 0;
+        // cout << "Is it a (0) Bottom or (1) Top piece?" << endl;
+        // cin >> type;
+
+        // if (!cin) {
+        //     cout << "Invalid Input. Aborting action, please start again." << endl;
+        //     // Change to recursive function call
+        //     exit(1);
+        // }
+
+        // int weather = 0;
+        // cout << "Is this a (0) Fall/Winter [cold] or (1) Spring/Summer [warm] piece?" << endl;
+        // cin >> weather;
+
+        // if (!cin) {
+        //     cout << "Invalid Input. Aborting action, please start again." << endl;
+        //     // Change to recursive function call
+        //     exit(1);
+        // }
+
+        // string graphic = "None";
+        // cout << "What graphic? (If None, type None)" << endl;
+        // getline(cin, graphic);
+        // getline(cin, graphic);
+
+        // cout << "Choose your Color from the Color Dialog." << endl;
+        // vector<int> colorVector = getColors();
+        // RGBColor rgb = RGBColor(colorVector[0], colorVector[1], colorVector[2]);
+        // HSLColor* hsl = convertRGBtoHSL(rgb);
+        // double hue = hsl->getHue();
+        // double sat = hsl->getSaturation();
+        // double light = hsl->getLightness();
+        // delete hsl;
+        // Clothes nc = Clothes(graphic, weather, type, hue, sat, light);
+        // nc.addToCloset();
+        // /* 
+        // Have the user specify graphics, weather, type, etc.
+        // Then, use the color dialog to select the closest color.
+        // Create a clothes object with the data.
+        // Save to CSV.
+        // */
+
     }
     else if(addToCloset == "no"){
         cout<<"Welcome to the outfit selector "<<closetName<<" "<<endl;
@@ -91,10 +234,10 @@ int main(){
         if (colorful =="yes"){
             int c = 1;
         }
-        cout<<"Which graphic shirt would you like? (in None type None)"<<endl;
+        cout<<"Which graphic shirt would you like? (Leave blank for No Graphic)"<<endl;
         cin>>graphic;
         //this will select a shirt first ands then match a pair of bottoms to it
-        createCloset(weather, c, graphic);
+        createCloset(CLOSET_PATH, weather, c, graphic);
     } 
     /*
     cin>>addToCloset;
