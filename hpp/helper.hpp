@@ -9,10 +9,13 @@ Additionally, this header file contains our global variables, such as the predef
 
 using namespace std;
 
-const string CLOSET_PATH = "./Closet.csv";
+const string CLOSET_PATH = "./../Closet.csv";
 const string FILE_BAD_MESSAGE = "Error opening the file.";
 const string INSUFFICENT_CLOTHES_MESSAGE = "Sorry, you haven't added enough pieces to your closet yet. Add some more pieces then try again.";
 const string NO_MATCH_MESSAGE = "Sorry, you don't own clothes matching that description. Please try again.";
+
+const string LONG_SLEEVE_SHIRT_PATH = "./../displayFigures/LongSleeve_Tshirt.txt";
+const string PANT_PATH = "./../displayFigures/Pants.txt";
 
 int getNextID(const string file) {
     /*

@@ -1,6 +1,7 @@
-#include "clothes.hpp"
 #include <iostream>
 #include <string>
+
+#include "./../hpp/clothes.hpp"
 
 vector<Clothes> createCloset(const string filePath) {
     /*
@@ -76,13 +77,7 @@ int main() {
     string g = "Hello";
 
     try {
-        Clothes e(g, 1,0,0,0,0);
-        e.addToCloset();
-        Clothes f(g, 1,0,325,.71,.39);
-        f.addToCloset();
-        Clothes m(g, 1,0,235,.71,.39);
-        m.addToCloset();
-        Clothes h(g, 1,1,145,.71,.39);
+        Clothes h("None", 1,1,145,.71,.39);
         h.addToCloset();
         vector<Clothes> cloth;
         cloth = createCloset(CLOSET_PATH);

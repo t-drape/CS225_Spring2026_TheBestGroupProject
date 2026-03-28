@@ -7,6 +7,7 @@ This header file defines helper functions that run the Python script for the col
 #include <cstdlib>
 #include <string>
 #include <vector>
+
 using namespace std;
 
 /*
@@ -16,8 +17,8 @@ Grok for seeing how to implement python in a C++ program
 
 vector<int> getColors() {
     vector<int> colors;
-    std::system("python3 color_picker.py");
-    ifstream fin("chosen_color.txt");
+    std::system("python3 ./../colorPicker/color_picker.py");
+    ifstream fin("./../colorPicker/chosen_color.txt");
     string r;
     fin >> r;
     string g;
@@ -29,17 +30,3 @@ vector<int> getColors() {
     colors.push_back(stoi(b));
     return colors;
 }
-
-// int main() {
-//     std::system("python3 color_picker.py");
-
-//     ifstream fin("chosen_color.txt");
-//     string r;
-//     fin >> r;
-//     string g;
-//     fin >> g;
-//     string b;
-//     fin >> b;
-//     fin.close();
-//     cout << "R:" << r << " G:" << g << " B:" << b<< endl;
-// }
