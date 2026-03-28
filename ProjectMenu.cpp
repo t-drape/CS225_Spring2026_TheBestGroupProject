@@ -173,6 +173,7 @@ void addPiece() {
 
 
 int main(){
+    srand(time(NULL));
     string closetName;
     string addToCloset = "hello";
     int weather;
@@ -212,6 +213,16 @@ int main(){
             for(int i = 0; i < shirts.size(); i++) {
                 cout << shirts[i];
             }
+
+            int chosenIndex = 0;
+            if (shirts.size() > 1) { 
+                chosenIndex = rand() % shirts.size();
+            }
+
+            Clothes& c = shirts[chosenIndex];
+            cout << c;
+
+
         }
         catch(string msg) {
             cout << msg;
