@@ -5,7 +5,7 @@ This file includes the auxiliary header files to improve readability and separat
 */
 
 #include "colors.hpp"
-#include "helper.hpp"
+#include "./../hpp/helper.hpp"
 #include <vector>
 
 class Clothes : public HSLColor {
@@ -103,3 +103,4 @@ class Clothes : public HSLColor {
         */
         
 };
+
