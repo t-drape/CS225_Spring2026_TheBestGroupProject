@@ -3,6 +3,10 @@
 #include "clothes.hpp"
 #include <climits>
 
+enum {SHORTS, SHIRTS};
+enum {COLD, WARM};
+enum {NOT_COLORFUL, COLORFUL};
+
 using namespace std;
 
 vector<Clothes> createCloset(const string filePath) {
@@ -62,14 +66,14 @@ vector<Clothes> createCloset(const string filePath) {
     return closet;
 }
 
-vector<Clothes> createCloset(const string filePath, int w, int color, string graphic) {
+// This refines the closet based on user input to create a more realistic clothes matching application
+vector<Clothes> findShirts(const string filePath, int w, int colorful, string chosenGraphic, int chosenType=SHIRTS) {
     /*
     Purpose: Create a vector representation of the Clothes objects in the user's closet file
     References: C++ documentation on std::stod function
     */
-    bool allOneType = true;
     vector<Clothes> closet;
-    int lastType = -1;
+    int lastType = chosenType;
     ifstream closetFile(filePath);
 
     if (!closetFile.good()) {
@@ -91,30 +95,38 @@ vector<Clothes> createCloset(const string filePath, int w, int color, string gra
 
     while(!closetFile.eof() && getline(closetFile, inputLine)) {
         stringstream parser(inputLine);
+
         getline(parser, field, ',');
         ID = stoi(field);
+
         getline(parser, field, ',');
         graphics = field;
+
         getline(parser, field, ',');
         weather = stoi(field);
+
         getline(parser, field, ',');
         type = stoi(field);
-        if (lastType == -1) {
-            lastType = type;
-        }
-        if (type != lastType) {
-            allOneType = false;
-        }
+
         getline(parser, field, ',');
         hue = stod(field);
         getline(parser, field, ',');
         sat = stod(field);
         getline(parser, field, '\n');
         light = stod(field);
-        closet.push_back(Clothes(graphics, weather, type, hue, sat, light, ID));
+
+        if (colorful) {
+            if (weather == w && graphics == chosenGraphic && type == chosenType && light != 0 && light != 1) {
+                closet.push_back(Clothes(graphics, weather, type, hue, sat, light, ID));
+            }
+        } else {
+            if (weather == w && graphics == chosenGraphic && type == chosenType && ( light == 0 || light == 1)) {
+                closet.push_back(Clothes(graphics, weather, type, hue, sat, light, ID));
+            }
+        }
     }
-    if (allOneType) {
-        throw(type);
+    if (closet.size() == 0) {
+        throw(NO_MATCH_MESSAGE);
     }
     return closet;
 }
@@ -143,7 +155,7 @@ void addPiece() {
     }
 
     string graphic = "None";
-    cout << "What graphic? (Leave Blank for None)" << endl;
+    cout << "What graphic? (Type 'None' for None)" << endl;
     getline(cin, graphic);
     getline(cin, graphic);
 
@@ -174,48 +186,6 @@ int main(){
     cin>>addToCloset;
     if (addToCloset == "yes"){
         addPiece();
-        // int type = 0;
-        // cout << "Is it a (0) Bottom or (1) Top piece?" << endl;
-        // cin >> type;
-
-        // if (!cin) {
-        //     cout << "Invalid Input. Aborting action, please start again." << endl;
-        //     // Change to recursive function call
-        //     exit(1);
-        // }
-
-        // int weather = 0;
-        // cout << "Is this a (0) Fall/Winter [cold] or (1) Spring/Summer [warm] piece?" << endl;
-        // cin >> weather;
-
-        // if (!cin) {
-        //     cout << "Invalid Input. Aborting action, please start again." << endl;
-        //     // Change to recursive function call
-        //     exit(1);
-        // }
-
-        // string graphic = "None";
-        // cout << "What graphic? (If None, type None)" << endl;
-        // getline(cin, graphic);
-        // getline(cin, graphic);
-
-        // cout << "Choose your Color from the Color Dialog." << endl;
-        // vector<int> colorVector = getColors();
-        // RGBColor rgb = RGBColor(colorVector[0], colorVector[1], colorVector[2]);
-        // HSLColor* hsl = convertRGBtoHSL(rgb);
-        // double hue = hsl->getHue();
-        // double sat = hsl->getSaturation();
-        // double light = hsl->getLightness();
-        // delete hsl;
-        // Clothes nc = Clothes(graphic, weather, type, hue, sat, light);
-        // nc.addToCloset();
-        // /* 
-        // Have the user specify graphics, weather, type, etc.
-        // Then, use the color dialog to select the closest color.
-        // Create a clothes object with the data.
-        // Save to CSV.
-        // */
-
     }
     else if(addToCloset == "no"){
         cout<<"Welcome to the outfit selector "<<closetName<<" "<<endl;
@@ -230,14 +200,22 @@ int main(){
         } 
         cout<<"Are you looking for a colorful outfit today?: yes or no"<<endl;
         cin>>colorful;
-        int c = 0;
+        int c = NOT_COLORFUL;
         if (colorful =="yes"){
-            int c = 1;
+            c = COLORFUL;
         }
-        cout<<"Which graphic shirt would you like? (Leave blank for No Graphic)"<<endl;
+        cout<<"Which graphic shirt would you like? (Type 'None' for None)"<<endl;
         cin>>graphic;
         //this will select a shirt first ands then match a pair of bottoms to it
-        createCloset(CLOSET_PATH, weather, c, graphic);
+        try {
+            vector<Clothes> shirts = findShirts(CLOSET_PATH, weather, c, graphic);
+            for(int i = 0; i < shirts.size(); i++) {
+                cout << shirts[i];
+            }
+        }
+        catch(string msg) {
+            cout << msg;
+        }
     } 
     /*
     cin>>addToCloset;

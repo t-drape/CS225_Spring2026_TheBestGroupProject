@@ -11,6 +11,7 @@ using namespace std;
 
 const string CLOSET_PATH = "./Closet.csv";
 const string FILE_BAD_MESSAGE = "Error opening the file.";
+const string NO_MATCH_MESSAGE = "Sorry, you don't own clothes matching that description. Please try again.";
 
 int getNextID(const string file) {
     /*

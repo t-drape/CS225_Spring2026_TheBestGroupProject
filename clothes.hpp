@@ -42,6 +42,8 @@ class Clothes : public HSLColor {
                 */
                 for(int i = 0; i < closet.size(); i++) {
                     // 4 is the number of tetradic hues
+                    
+                    // Remove the if statement, as I will only pass the partitioned closet of the opposite type
                     if (closet[i].type != type) {
                         for (int j = 0; j < 4; j++) {
                         /*
