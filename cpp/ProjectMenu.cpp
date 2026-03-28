@@ -344,13 +344,25 @@ vector<Clothes> findShirts(const string filePath, int w, int colorful, string ch
         getline(parser, field, '\n');
         light = stod(field);
 
-        if (colorful) {
-            if (weather == w && graphics == chosenGraphic && type == chosenType && light != 0 && light != 1) {
-                closet.push_back(Clothes(graphics, weather, type, hue, sat, light, ID));
+        if (chosenGraphic == "Any") {
+            if (colorful) {
+                if (weather == w && type == chosenType && light != 0 && light != 1) {
+                    closet.push_back(Clothes(graphics, weather, type, hue, sat, light, ID));
+                }
+            } else {
+                if (weather == w && type == chosenType && ( light == 0 || light == 1)) {
+                    closet.push_back(Clothes(graphics, weather, type, hue, sat, light, ID));
+                }
             }
         } else {
-            if (weather == w && graphics == chosenGraphic && type == chosenType && ( light == 0 || light == 1)) {
-                closet.push_back(Clothes(graphics, weather, type, hue, sat, light, ID));
+            if (colorful) {
+                if (weather == w && graphics == chosenGraphic && type == chosenType && light != 0 && light != 1) {
+                    closet.push_back(Clothes(graphics, weather, type, hue, sat, light, ID));
+                }
+            } else {
+                if (weather == w && graphics == chosenGraphic && type == chosenType && ( light == 0 || light == 1)) {
+                    closet.push_back(Clothes(graphics, weather, type, hue, sat, light, ID));
+                }
             }
         }
     }
@@ -442,7 +454,7 @@ int main(){
                     c = COLORFUL;
                 }
 
-                cout<<"Which graphic shirt would you like? (Type 'None' for None)"<<endl;
+                cout<<"Which graphic shirt would you like? (Type 'None' for None, 'Any' for Random)"<<endl;
                 cin>>graphic;
 
                 //this will select a shirt first ands then match a pair of bottoms to it
