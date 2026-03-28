@@ -28,11 +28,6 @@ void coldBottomDescription(Clothes& piece) {
     cout << "Your " << "H=" << piece.getHue() << ", S=" << piece.getSaturation() << ", L=" << piece.getLightness() << " pants" << endl; 
 }
 
-
-void coldBottomDescription() {
-
-}
-
 // Function Definition from read.hpp
 vector<int> getColors() {
     vector<int> colors;
@@ -454,8 +449,10 @@ int main(){
                     c = COLORFUL;
                 }
 
+                // Need both the get rid of new line character being read
+                getline(cin, graphic);
                 cout<<"Which graphic shirt would you like? (Type 'None' for None, 'Any' for Random)"<<endl;
-                cin>>graphic;
+                getline(cin, graphic);
 
                 //this will select a shirt first ands then match a pair of bottoms to it
                 try {
@@ -507,55 +504,5 @@ int main(){
             cout << msg << endl;
             exit(1);
         }
-    }
-
-    /*
-    cin>>addToCloset;
-    if (addToCloset == "yes") {
-        int type = 0;
-        cout << "Is it a (0) Bottom or (1) Top piece?" << endl;
-        cin >> type;
-
-        if (!cin) {
-            cout << "Invalid Input. Aborting action, please start again." << endl;
-            // Change to recursive function call
-            exit(1);
-        }
-
-        int weather = 0;
-        cout << "Is this a (0) Fall/Winter [cold] or (1) Spring/Summer [warm] piece?" << endl;
-        cin >> weather;
-
-        if (!cin) {
-            cout << "Invalid Input. Aborting action, please start again." << endl;
-            // Change to recursive function call
-            exit(1);
-        }
-
-        string graphic = "None";
-        cout << "What graphic? (If None, type None)" << endl;
-        getline(cin, graphic);
-        getline(cin, graphic);
-
-        cout << "Choose your Color from the Color Dialog." << endl;
-        vector<int> colorVector = getColors();
-        RGBColor rgb = RGBColor(colorVector[0], colorVector[1], colorVector[2]);
-        HSLColor* hsl = convertRGBtoHSL(rgb);
-        double hue = hsl->getHue();
-        double sat = hsl->getSaturation();
-        double light = hsl->getLightness();
-        delete hsl;
-        Clothes nc = Clothes(graphic, weather, type, hue, sat, light);
-        nc.addToCloset();
-        */
-        /* 
-        Have the user specify graphics, weather, type, etc.
-        Then, use the color dialog to select the closest color.
-        Create a clothes object with the data.
-        Save to CSV.
-        */
-
-    //}
-    
-    
+    } 
 }
