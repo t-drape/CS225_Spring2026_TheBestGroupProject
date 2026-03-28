@@ -8,6 +8,31 @@
 
 using namespace std;
 
+void warmTopDescription(Clothes& piece) {
+    cout << "---------------------Top Piece:----------------------------" << endl;
+    cout << "Your " << piece.getGraphic() << " short-sleeve shirt" << " in H=" << piece.getHue() << ", S=" << piece.getSaturation() << ", L=" << piece.getLightness() << endl; 
+}
+
+void coldTopDescription(Clothes& piece) {
+    cout << "---------------------Top Piece:----------------------------" << endl;
+    cout << "Your " << piece.getGraphic() << " long-sleeve shirt" << " in H=" << piece.getHue() << ", S=" << piece.getSaturation() << ", L=" << piece.getLightness() << endl; 
+}
+
+void warmBottomDescription(Clothes& piece) {
+    cout << "---------------------Bottom Piece:----------------------------" << endl;
+    cout << "Your" << " H=" << piece.getHue() << ", S=" << piece.getSaturation() << ", L=" << piece.getLightness() << " shorts" << endl; 
+}
+
+void coldBottomDescription(Clothes& piece) {
+    cout << "---------------------Bottom Piece:----------------------------" << endl;
+    cout << "Your " << "H=" << piece.getHue() << ", S=" << piece.getSaturation() << ", L=" << piece.getLightness() << " pants" << endl; 
+}
+
+
+void coldBottomDescription() {
+
+}
+
 // Function Definition from read.hpp
 vector<int> getColors() {
     vector<int> colors;
@@ -441,13 +466,14 @@ int main(){
                     RGBColor* b = convertHSLtoRGB(bottoms[chosenBottomIndex]);
 
                     if (weather == WARM) {
+                        warmTopDescription(top);
                         print_colored_rgb(t->getRedValue(), t->getGreenValue(), t->getBlueValue(), tshirt());
-                        cout << "Top: " << shirts[chosenTopIndex];
-                        std::cout << "\033[0m" << std::endl;
+                        warmBottomDescription(bottoms[chosenBottomIndex]);
                         print_colored_rgb(b->getRedValue(), b->getGreenValue(), b->getBlueValue(), shorts());
-                        cout << "Bottom: " << bottoms[chosenBottomIndex];
                     } else {
+                        coldTopDescription(top);
                         print_colored_rgb(t->getRedValue(), t->getGreenValue(), t->getBlueValue(), longSleeveShirt());
+                        coldBottomDescription(bottoms[chosenBottomIndex]);
                         print_colored_rgb(b->getRedValue(), b->getGreenValue(), b->getBlueValue(), pants());
                     }
                     delete t;
