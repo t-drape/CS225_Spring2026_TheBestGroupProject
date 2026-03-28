@@ -60,6 +60,9 @@ vector<Clothes> createCloset(const string filePath) {
         light = stod(field);
         closet.push_back(Clothes(graphics, weather, type, hue, sat, light, ID));
     }
+    if (closet.size() == 0) {
+        throw(INSUFFICENT_CLOTHES_MESSAGE);
+    } 
     if (allOneType) {
         throw(type);
     }
@@ -174,60 +177,86 @@ void addPiece() {
 
 int main(){
     srand(time(NULL));
-    string closetName;
-    string addToCloset = "hello";
-    int weather;
-    string colorful;
-    string chooseOutfit;
-    string graphic;
-    cout<<"Welcome to the outfit selector program!"<<endl;
-    cout<<"What is your name: "<<endl;
-    cin>>closetName;
-    cout<<"Would you like to add an item to the closet? yes or no "<<endl;
-    cin>>addToCloset;
-    if (addToCloset == "yes"){
-        addPiece();
+
+    try {
+        vector<Clothes> fullCloset = createCloset(CLOSET_PATH);
+        string closetName;
+        string addToCloset = "hello";
+        int weather;
+        string colorful;
+        string chooseOutfit;
+        string graphic;
+        cout<<"Welcome to the outfit selector program!"<<endl;
+        cout<<"What is your name: "<<endl;
+        cin>>closetName;
+        cout<<"Would you like to add an item to the closet? yes or no "<<endl;
+        cin>>addToCloset;
+        if (addToCloset == "yes"){
+            addPiece();
+        }
+        else if(addToCloset == "no"){
+            cout<<"Welcome to the outfit selector "<<closetName<<" "<<endl;
+            cout<<"There will be a couple questions to help determine a great outfit!"<<endl;
+            cout<<"What is the weather looking like today? Please Input Fahrenheit value: "<<endl;
+            cin>>weather;
+            if (weather >=70){
+                weather = 1;
+            }
+            else if(weather < 70){
+                weather = 0;
+            } 
+            cout<<"Are you looking for a colorful outfit today?: yes or no"<<endl;
+            cin>>colorful;
+            int c = NOT_COLORFUL;
+            if (colorful =="yes"){
+                c = COLORFUL;
+            }
+            cout<<"Which graphic shirt would you like? (Type 'None' for None)"<<endl;
+            cin>>graphic;
+            //this will select a shirt first ands then match a pair of bottoms to it
+            try {
+                vector<Clothes> shirts = findShirts(CLOSET_PATH, weather, c, graphic);
+                for(int i = 0; i < shirts.size(); i++) {
+                    cout << shirts[i];
+                }
+
+                int chosenTopIndex = 0;
+                if (shirts.size() > 1) { 
+                    chosenTopIndex = rand() % shirts.size();
+                }
+
+                Clothes& c = shirts[chosenTopIndex];
+                cout << "Top: " << c << endl;
+                
+                vector<Clothes> bottoms = c.matchingClothes(fullCloset, tetradicPaletteGenerator(c.getHue()));
+
+                int chosenBottomIndex = 0;
+                if (bottoms.size() > 1) {
+                    chosenBottomIndex = rand() % bottoms.size();
+                }
+                
+                Clothes& b = bottoms[chosenBottomIndex];
+                cout << "Bottom: " << b << endl;
+
+            }
+            catch(string msg) {
+                cout << msg;
+            }
+        }
     }
-    else if(addToCloset == "no"){
-        cout<<"Welcome to the outfit selector "<<closetName<<" "<<endl;
-        cout<<"There will be a couple questions to help determine a great outfit!"<<endl;
-        cout<<"What is the weather looking like today? Please Input Fahrenheit value: "<<endl;
-        cin>>weather;
-        if (weather >=70){
-            weather = 1;
+    catch(int m) {
+        if(m == SHIRTS) {
+            cout << "Sorry, your closet currently only contains tops. We cannot create outfits without bottoms." << endl;
+        } else if (m == SHORTS) {
+            cout << "Sorry, your closet currently only contains bottoms. We cannot create outfits without tops." << endl;
         }
-        else if(weather < 70){
-            weather = 0;
-        } 
-        cout<<"Are you looking for a colorful outfit today?: yes or no"<<endl;
-        cin>>colorful;
-        int c = NOT_COLORFUL;
-        if (colorful =="yes"){
-            c = COLORFUL;
-        }
-        cout<<"Which graphic shirt would you like? (Type 'None' for None)"<<endl;
-        cin>>graphic;
-        //this will select a shirt first ands then match a pair of bottoms to it
-        try {
-            vector<Clothes> shirts = findShirts(CLOSET_PATH, weather, c, graphic);
-            for(int i = 0; i < shirts.size(); i++) {
-                cout << shirts[i];
-            }
+        exit(1);
+    }
+    catch(string msg) {
+        cout << msg << endl;
+        exit(1);
+    }
 
-            int chosenIndex = 0;
-            if (shirts.size() > 1) { 
-                chosenIndex = rand() % shirts.size();
-            }
-
-            Clothes& c = shirts[chosenIndex];
-            cout << c;
-
-
-        }
-        catch(string msg) {
-            cout << msg;
-        }
-    } 
     /*
     cin>>addToCloset;
     if (addToCloset == "yes") {
