@@ -45,8 +45,32 @@ string longSleeveShirt() {
     return content;
 }
 
+string tshirt() {
+    ifstream inputFile(TSHIRT_PATH);
+    if (!inputFile.is_open()) {
+        return "Error: Unable to open file";
+    }
+    string line, content;
+    while (getline(inputFile, line)) {
+        content += line + "\n";
+    }
+    return content;
+}
+
 string pants() {
     ifstream inputFile(PANT_PATH);
+    if (!inputFile.is_open()) {
+        return "Error: Unable to open file";
+    }
+    string line, content;
+    while (getline(inputFile, line)) {
+        content += line + "\n";
+    }
+    return content;
+}
+
+string shorts() {
+    ifstream inputFile(SHORTS_PATH);
     if (!inputFile.is_open()) {
         return "Error: Unable to open file";
     }
@@ -417,8 +441,11 @@ int main(){
                     RGBColor* b = convertHSLtoRGB(bottoms[chosenBottomIndex]);
 
                     if (weather == WARM) {
-                        print_colored_rgb(t->getRedValue(), t->getGreenValue(), t->getBlueValue(), Tshirt());
-                        print_colored_rgb(t->getRedValue(), t->getGreenValue(), t->getBlueValue(), shorts());
+                        print_colored_rgb(t->getRedValue(), t->getGreenValue(), t->getBlueValue(), tshirt());
+                        cout << "Top: " << shirts[chosenTopIndex];
+                        std::cout << "\033[0m" << std::endl;
+                        print_colored_rgb(b->getRedValue(), b->getGreenValue(), b->getBlueValue(), shorts());
+                        cout << "Bottom: " << bottoms[chosenBottomIndex];
                     } else {
                         print_colored_rgb(t->getRedValue(), t->getGreenValue(), t->getBlueValue(), longSleeveShirt());
                         print_colored_rgb(b->getRedValue(), b->getGreenValue(), b->getBlueValue(), pants());
