@@ -14,13 +14,23 @@ void swap(double* a, double* b) {
 }
 
 void warmTopDescription(Clothes& piece) {
+    string g = piece.getGraphic();
     cout << "---------------------Top Piece:----------------------------" << endl;
-    cout << "Your " << piece.getGraphic() << " short-sleeve shirt" << " in H=" << piece.getHue() << ", S=" << piece.getSaturation() << ", L=" << piece.getLightness() << endl; 
+    if (g != "None") {
+        cout << "Your " << piece.getGraphic() << " short-sleeve shirt" << " in H=" << piece.getHue() << ", S=" << piece.getSaturation() << ", L=" << piece.getLightness() << endl; 
+    } else {
+        cout << "Your " << "H=" << piece.getHue() << ", S=" << piece.getSaturation() << ", L=" << piece.getLightness() << " short-sleeve shirt" << endl; 
+    }
 }
 
 void coldTopDescription(Clothes& piece) {
+    string g = piece.getGraphic();
     cout << "---------------------Top Piece:----------------------------" << endl;
-    cout << "Your " << piece.getGraphic() << " long-sleeve shirt" << " in H=" << piece.getHue() << ", S=" << piece.getSaturation() << ", L=" << piece.getLightness() << endl; 
+    if (g != "None") {
+        cout << "Your " << piece.getGraphic() << " long-sleeve shirt" << " in H=" << piece.getHue() << ", S=" << piece.getSaturation() << ", L=" << piece.getLightness() << endl; 
+    } else {
+        cout << "Your " << "H=" << piece.getHue() << ", S=" << piece.getSaturation() << ", L=" << piece.getLightness() << " long-sleeve shirt" << endl; 
+    }
 }
 
 void warmBottomDescription(Clothes& piece) {
@@ -481,106 +491,108 @@ class Messages {
 // }
 int main(){
     srand(time(NULL));
-    // string closetName;
     string addToCloset = "hello";
     int weather;
     string colorful;
     string chooseOutfit;
     string graphic;
     string name;
+
     cout << "What is your name?: ";
     getline(cin, name);
     Messages greetAndFarewell = Messages(name, "the Algorithmic Outfit Selector!", 
         "Welcome to", "You look good today, please come back tomorrow to keep looking this good hahaha! Thank you for visiting");
     cout << greetAndFarewell.welcome;
-    // Welcome wel("hi","TJ");
-    // cout<<wel<<endl;
-    cout<<"Would you like to add an item to the closet? yes or no "<<endl;
-    cin>>addToCloset;
-    if (addToCloset == "yes"){
-        addPiece();
-        cout << greetAndFarewell.goodbye;
-    }
-    else if(addToCloset == "no"){
-        try {
-                vector<Clothes> fullCloset = createCloset(CLOSET_PATH);
 
-                cout<<"Welcome to the outfit selector🤩 "<<endl;
-                cout<<"There will be a couple questions to help determine a great outfit!"<<endl;
+    string endLoop = "no";
 
-                cout<<"What is the weather looking like today? Please Input Fahrenheit value: "<<endl;
-                cin>>weather;
-                if (weather >=70){
-                    weather = WARM;
-                }
-                else if(weather < 70){
-                    weather = COLD;
-                } 
+    do {
+        cout<<"Would you like to add an item to the closet? yes or no "<<endl;
+        cin>>addToCloset;
 
-                cout<<"Are you looking for a colorful shirt today?: yes or no"<<endl;
-                cin>>colorful;
-                int c = NOT_COLORFUL;
-                if (colorful =="yes"){
-                    c = COLORFUL;
-                }
-
-                // Need both the get rid of new line character being read
-                getline(cin, graphic);
-                cout<<"Which graphic shirt would you like? (Type 'None' for None, 'Any' for Random)"<<endl;
-                getline(cin, graphic);
-
-                //this will select a shirt first ands then match a pair of bottoms to it
-                try {
-                    vector<Clothes> shirts = findShirts(CLOSET_PATH, weather, c, graphic);
-                    int chosenTopIndex = 0;
-                    if (shirts.size() > 1) { 
-                        chosenTopIndex = rand() % shirts.size();
-                    }
-
-                    Clothes& top = shirts[chosenTopIndex];
-
-                    vector<Clothes> bottoms = top.matchingClothes(fullCloset, tetradicPaletteGenerator(top.getHue()));
-                    int chosenBottomIndex = 0;
-                    if (bottoms.size() > 1) {
-                        chosenBottomIndex = rand() % bottoms.size();
-                    }
-
-                    RGBColor* t = convertHSLtoRGB(shirts[chosenTopIndex]);
-                    RGBColor* b = convertHSLtoRGB(bottoms[chosenBottomIndex]);
-
-                    if (weather == WARM) {
-                        warmTopDescription(top);
-                        print_colored_rgb(t->getRedValue(), t->getGreenValue(), t->getBlueValue(), tshirt());
-                        warmBottomDescription(bottoms[chosenBottomIndex]);
-                        print_colored_rgb(b->getRedValue(), b->getGreenValue(), b->getBlueValue(), shorts());
-                    } else {
-                        coldTopDescription(top);
-                        print_colored_rgb(t->getRedValue(), t->getGreenValue(), t->getBlueValue(), longSleeveShirt());
-                        coldBottomDescription(bottoms[chosenBottomIndex]);
-                        print_colored_rgb(b->getRedValue(), b->getGreenValue(), b->getBlueValue(), pants());
-                    }
-                    delete t;
-                    delete b;
-                    cout << greetAndFarewell.goodbye;
-                }
-                catch(string msg) {
-                    cout << msg;
-                }
-            }
-            // Goodbye good;
-            // cout<<good<<endl;
-        catch(int m) {
-            if(m == SHIRTS) {
-                cout << "Sorry, your closet currently only contains tops. We cannot create outfits without bottoms." << endl;
-            } else if (m == SHORTS) {
-                cout << "Sorry, your closet currently only contains bottoms. We cannot create outfits without tops." << endl;
-            }
-            exit(1);
+        if (addToCloset == "yes"){
+            addPiece();
         }
-        catch(string msg) {
-            cout << msg << endl;
-            exit(1);
-        }
-    } 
+        else if(addToCloset == "no"){
+            try {
+                    vector<Clothes> fullCloset = createCloset(CLOSET_PATH);
 
+                    cout<<"Welcome to the Algorithmic Outfit Selector 🤩"<<endl;
+                    cout<<"There will be a couple questions to help determine a great outfit!"<<endl;
+
+                    cout<<"What is the weather looking like today? Please Input Fahrenheit value: ";
+                    cin>>weather;
+                    if (weather >=70){
+                        weather = WARM;
+                    }
+                    else if(weather < 70){
+                        weather = COLD;
+                    } 
+
+                    cout<<"Are you looking for a colorful shirt today?: yes or no"<<endl;
+                    cin>>colorful;
+                    int c = NOT_COLORFUL;
+                    if (colorful =="yes"){
+                        c = COLORFUL;
+                    }
+
+                    // Need both the get rid of new line character being read
+                    getline(cin, graphic);
+                    cout<<"Which graphic shirt would you like? (Type 'None' for None, 'Any' for Random)"<<endl;
+                    getline(cin, graphic);
+
+                    //this will select a shirt first ands then match a pair of bottoms to it
+                    try {
+                        vector<Clothes> shirts = findShirts(CLOSET_PATH, weather, c, graphic);
+                        int chosenTopIndex = 0;
+                        if (shirts.size() > 1) { 
+                            chosenTopIndex = rand() % shirts.size();
+                        }
+
+                        Clothes& top = shirts[chosenTopIndex];
+
+                        vector<Clothes> bottoms = top.matchingClothes(fullCloset, tetradicPaletteGenerator(top.getHue()));
+                        int chosenBottomIndex = 0;
+                        if (bottoms.size() > 1) {
+                            chosenBottomIndex = rand() % bottoms.size();
+                        }
+
+                        RGBColor* t = convertHSLtoRGB(shirts[chosenTopIndex]);
+                        RGBColor* b = convertHSLtoRGB(bottoms[chosenBottomIndex]);
+
+                        if (weather == WARM) {
+                            warmTopDescription(top);
+                            print_colored_rgb(t->getRedValue(), t->getGreenValue(), t->getBlueValue(), tshirt());
+                            warmBottomDescription(bottoms[chosenBottomIndex]);
+                            print_colored_rgb(b->getRedValue(), b->getGreenValue(), b->getBlueValue(), shorts());
+                        } else {
+                            coldTopDescription(top);
+                            print_colored_rgb(t->getRedValue(), t->getGreenValue(), t->getBlueValue(), longSleeveShirt());
+                            coldBottomDescription(bottoms[chosenBottomIndex]);
+                            print_colored_rgb(b->getRedValue(), b->getGreenValue(), b->getBlueValue(), pants());
+                        }
+                        delete t;
+                        delete b;
+                    }
+                    catch(string msg) {
+                        cout << msg;
+                    }
+                }
+            catch(int m) {
+                if(m == SHIRTS) {
+                    cout << "Sorry, your closet currently only contains tops. We cannot create outfits without bottoms." << endl;
+                } else if (m == SHORTS) {
+                    cout << "Sorry, your closet currently only contains bottoms. We cannot create outfits without tops." << endl;
+                }
+                exit(1);
+            }
+            catch(string msg) {
+                cout << msg << endl;
+                exit(1);
+            }
+        } 
+        cout << "Do you want to exit the Algorithmic Outfit Selector? [yes, no]: ";
+        cin >> endLoop;
+    } while(endLoop == "no");
+    cout << greetAndFarewell.goodbye;
 }
