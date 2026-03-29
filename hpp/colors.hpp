@@ -14,26 +14,13 @@ class HSLColor {
         double saturation; // Measured in percentages
         double lightness; // Measured in percentages
     public:
-        int getHue() {return hue;}
-        double getLightness() {return lightness;}
-        double getSaturation() {return saturation;}
+        int getHue();
+        double getLightness();
+        double getSaturation();
 
-        HSLColor(double hue = 40, double saturation = 35, double lightness = 75) {
-            if (hue > 359) {
-                hue -= 360;
-            }
-            this->hue = hue;
-            this->saturation = saturation;
-            this->lightness = lightness;
-        }
+        HSLColor(double hue = 40, double saturation = 35, double lightness = 75);
 
-        friend ostream& operator<<(ostream& os, HSLColor& color) {
-            os << "Hue: " << color.hue;
-            os << " Saturation: " << color.saturation;
-            os << " Lightness: " << color.lightness;
-            os << endl;
-            return os;
-        }
+        friend ostream& operator<<(ostream& os, HSLColor& color);
 };
 
 class RGBColor {
@@ -42,31 +29,15 @@ class RGBColor {
         int greenValue;
         int blueValue;
     public:
-        RGBColor(int r, int g, int b) {
-            redValue = r;
-            greenValue = g;
-            blueValue = b;
-        }
+        RGBColor(int r, int g, int b);
 
-        double getRedValue() {
-            return double(redValue);
-        }
+        double getRedValue();
 
-        double getGreenValue() {
-            return double(greenValue);
-        }
+        double getGreenValue();
 
-        double getBlueValue() {
-            return double(blueValue);
-        }
+        double getBlueValue();
         
-        friend ostream& operator<<(ostream& os, RGBColor& color) {
-            os << "Red: " << color.redValue;
-            os << " Green: " << color.greenValue;
-            os << " Blue: " << color.blueValue;
-            os << endl;
-            return os;
-        }
+        friend ostream& operator<<(ostream& os, RGBColor& color);
 
 };
 

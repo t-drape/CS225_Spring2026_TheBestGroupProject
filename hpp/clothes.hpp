@@ -4,9 +4,10 @@ This header file defines the integral class of our program- our Clothes class de
 This file includes the auxiliary header files to improve readability and separation of concerns.
 */
 
-#include "colors.hpp"
-#include "./../hpp/helper.hpp"
 #include <vector>
+#include "./../cpp/helper.cpp"
+#include "./../cpp/colors.cpp"
+#include "globalVars.hpp"
 
 void swap(double* a, double* b);
 
@@ -18,85 +19,20 @@ class Clothes : public HSLColor {
         int type; // Defines tops versus bottoms, 1 for top, 0 for bottoms
     
     public:
-        Clothes(string graphics, int weather, int type, double h, double s, double l, int id=getNextID(CLOSET_PATH)) : ID(id) {
-            this->graphics = graphics;
-            this->weather = weather;
-            this->type = type;
-            hue = h;
-            saturation = s;
-            lightness = l;
-        }
+        Clothes(string graphics, int weather, int type, double h, double s, double l, int id=getNextID(CLOSET_PATH));
 
-        string getGraphic() {return graphics;}
+        string getGraphic();
 
         // Use a reference to reduce memory usage, (pass by reference, not pass by value)
-        vector<Clothes> matchingClothes(vector<Clothes>& closet, double* hues) {
-            int loops = 0;
-            bool match = false;
-            vector<Clothes> matches;
-            /*
-            Loop until match found,
-            Each iteration, increase range by 10%, = add/subtract 36 degrees from each value
-            */
-            do {
-                /*
-                For clothes in partitioned closet,
-                If hue is within range,
-                Add to matchingColor Linked list of Clothes objects
-                */
-                for(int i = 0; i < closet.size(); i++) {
-                    // 4 is the number of tetradic hues
-                    if (closet[i].type != type && closet[i].weather == weather) {
-                        for (int j = 0; j < 4; j++) {
-                        /*
-                        Originally, I expanded both sides. This led to too many colors included.
-                        So, the lower bound equals the original value, the upper bound equals the computed value.
-                        */
-                            double upperBound = hues[j] + (36 * loops);
-                            double lowerBound = hues[j];
-                            if (upperBound > 359) {
-                                upperBound -= 360;
-                            }
-                            if (lowerBound > upperBound) {
-                                swap(&lowerBound, &upperBound);
-                            }
+        vector<Clothes> matchingClothes(vector<Clothes>& closet, double* hues);
 
-                            if (inRange(closet[i].getHue(), lowerBound, upperBound)) {
-                                // Change to a Clothes Object once we have full project developed
-                                matches.push_back(closet[i]);
-                                match = true;
-                            }
-                        }
-                    }
-                }
-                loops++;
-            } while (match == false);
-            return matches;
-        }
-
+        void addToCloset();
         /* 
         Find last ID in closet,
         Initialization List to set ID variable,
         Pass values from menu,
         set all variables to values
         */
-
-        void addToCloset() {
-            /*
-                References:
-                    GoogleAI Overview of appending to a file in C++.
-                    GoogleAI Overview of writing to a CSV file in C++.
-                    GoogleAI Overview of append mode if no file exists.
-                    Note: If the specified file does not exist, then, with append, a new empty file is created.
-            */
-            cout << "Adding Piece to Collection: ID = " << ID << "." << endl;
-            ofstream closetFile;
-            closetFile.open(CLOSET_PATH, std::ios::app);
-            closetFile << "\n" << ID << "," << graphics << "," << weather << "," << type << "," << hue << "," << saturation << "," << lightness;
-            closetFile.close();
-
-            // Write Data fields as new row in Closet.csv
-        }
 
         /*
             Note: 
