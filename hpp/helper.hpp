@@ -19,7 +19,7 @@ const string INSUFFICENT_CLOTHES_MESSAGE = "Sorry, you haven't added enough piec
 const string NO_MATCH_MESSAGE = "Sorry, you don't own clothes matching that description. Please try again.";
 
 const string TSHIRT_PATH = "./../displayFigures/tshirt.txt";
-const string SHORT_PATH = "./../displayFigures/shorts.txt";
+const string SHORTS_PATH = "./../displayFigures/shorts.txt";
 const string LONG_SLEEVE_SHIRT_PATH = "./../displayFigures/LongSleeveTshirt.txt";
 const string PANT_PATH = "./../displayFigures/pants.txt";
 
@@ -84,14 +84,14 @@ double* tetradicPaletteGenerator(double hue) {
     return colorPaletteHues;
 }
 
-void displayClothes() {
-    ifstream closetFile(CLOSET_PATH);
-    string line;
-    while(!closetFile.eof()) {
-        closetFile >> line;
-        cout << "From file: " << line << endl;
-    }
-}
+// void displayClothes() {
+//     ifstream closetFile(CLOSET_PATH);
+//     string line;
+//     while(!closetFile.eof()) {
+//         closetFile >> line;
+//         cout << "From file: " << line << endl;
+//     }
+// }
 
 /* For deletion: 
     Display all items in the closet.

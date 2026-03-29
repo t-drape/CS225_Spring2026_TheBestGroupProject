@@ -8,15 +8,7 @@ This file includes the auxiliary header files to improve readability and separat
 #include "./../hpp/helper.hpp"
 #include <vector>
 
-void swap(double* a, double* b) {
-    /*
-        Reference: Google AI overview of swap in C++
-    */
-    double temp;
-    temp = *a;
-    *a = *b;
-    *b = temp;
-}
+void swap(double* a, double* b);
 
 class Clothes : public HSLColor {
     private:
@@ -35,6 +27,8 @@ class Clothes : public HSLColor {
             lightness = l;
         }
 
+        string getGraphic() {return graphics;}
+
         // Use a reference to reduce memory usage, (pass by reference, not pass by value)
         vector<Clothes> matchingClothes(vector<Clothes>& closet, double* hues) {
             int loops = 0;
@@ -52,7 +46,7 @@ class Clothes : public HSLColor {
                 */
                 for(int i = 0; i < closet.size(); i++) {
                     // 4 is the number of tetradic hues
-                    if (closet[i].type != type) {
+                    if (closet[i].type != type && closet[i].weather == weather) {
                         for (int j = 0; j < 4; j++) {
                         /*
                         Originally, I expanded both sides. This led to too many colors included.

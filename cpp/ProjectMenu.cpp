@@ -5,7 +5,6 @@
 #include "./../hpp/clothes.hpp"
 #include "./../hpp/colorDisplay.hpp"
 
-
 using namespace std;
 
 void warmTopDescription(Clothes& piece) {
@@ -457,7 +456,6 @@ int main(){
                 //this will select a shirt first ands then match a pair of bottoms to it
                 try {
                     vector<Clothes> shirts = findShirts(CLOSET_PATH, weather, c, graphic);
-
                     int chosenTopIndex = 0;
                     if (shirts.size() > 1) { 
                         chosenTopIndex = rand() % shirts.size();
