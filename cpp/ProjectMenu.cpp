@@ -408,7 +408,32 @@ void addPiece() {
     nc.addToCloset();
 }
 
+class Welcome{
+private:
+    string hello;
+    string name;
+public:
+    Welcome(string hey, string firstName){hello = hey; name = firstName;}
+    friend ostream& operator<<(ostream & os, const Welcome&);
+    ~Welcome();
 
+};
+ostream& operator<<(ostream&os, const Welcome& d){
+    os<<d.hello<<" "<<d.name<<" Welcome  to the outfit selector program! 👕👖"<<<<endl;
+    return os;
+}
+Welcome::~Welcome(){
+
+}
+class Goodbye::public Welcome{
+public:
+    friend ostream& operator<<(ostream & os, const Goodbye&);
+}
+ostream& operator<<(ostream&os, const Goodbye& d){
+    os<<"Thank you"<<d.name<<"for using the outfit selector program! "<<endl;
+    os<<"You look good today, please come back tomorrow to keep looking this good hahaha"<<endl;
+    return os;
+}
 int main(){
     srand(time(NULL));
     string closetName;
@@ -417,9 +442,8 @@ int main(){
     string colorful;
     string chooseOutfit;
     string graphic;
-    cout<<"Welcome to the outfit selector program!"<<endl;
-    cout<<"What is your name: "<<endl;
-    cin>>closetName;
+    Welcome wel("hi","TJ");
+    cout<<wel<<endl;
     cout<<"Would you like to add an item to the closet? yes or no "<<endl;
     cin>>addToCloset;
     if (addToCloset == "yes"){
@@ -429,7 +453,7 @@ int main(){
         try {
                 vector<Clothes> fullCloset = createCloset(CLOSET_PATH);
 
-                cout<<"Welcome to the outfit selector "<<closetName<<" "<<endl;
+                cout<<"Welcome to the outfit selector🤩 "<<endl;
                 cout<<"There will be a couple questions to help determine a great outfit!"<<endl;
 
                 cout<<"What is the weather looking like today? Please Input Fahrenheit value: "<<endl;
@@ -490,6 +514,8 @@ int main(){
                     cout << msg;
                 }
             }
+            Goodbye good;
+            cout<<good<<endl;
         catch(int m) {
             if(m == SHIRTS) {
                 cout << "Sorry, your closet currently only contains tops. We cannot create outfits without bottoms." << endl;
