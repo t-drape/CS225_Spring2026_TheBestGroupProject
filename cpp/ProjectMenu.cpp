@@ -7,6 +7,12 @@
 
 using namespace std;
 
+void swap(double* a, double* b) {
+    double temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
 void warmTopDescription(Clothes& piece) {
     cout << "---------------------Top Piece:----------------------------" << endl;
     cout << "Your " << piece.getGraphic() << " short-sleeve shirt" << " in H=" << piece.getHue() << ", S=" << piece.getSaturation() << ", L=" << piece.getLightness() << endl; 
@@ -416,34 +422,78 @@ public:
     Welcome(string hey, string firstName){hello = hey; name = firstName;}
     friend ostream& operator<<(ostream & os, const Welcome&);
     ~Welcome();
-
 };
 ostream& operator<<(ostream&os, const Welcome& d){
-    os<<d.hello<<" "<<d.name<<" Welcome  to the outfit selector program! 👕👖"<<<<endl;
+    os<<d.hello<<" "<<d.name<<" Welcome  to the outfit selector program! 👕👖"<<endl;
     return os;
 }
 Welcome::~Welcome(){
+}
 
-}
-class Goodbye::public Welcome{
-public:
-    friend ostream& operator<<(ostream & os, const Goodbye&);
-}
-ostream& operator<<(ostream&os, const Goodbye& d){
-    os<<"Thank you"<<d.name<<"for using the outfit selector program! "<<endl;
-    os<<"You look good today, please come back tomorrow to keep looking this good hahaha"<<endl;
-    return os;
-}
+class Goodbye {
+
+};
+
+class Statement {
+    private:
+        string name;
+        string middle;
+        string start;
+    public:
+        Statement() {};
+        Statement(string name, string middle, string start) {
+            this->start = start;
+            this->name = name;
+            this->middle = middle;
+        }
+
+        friend ostream& operator<<(ostream& os, Statement& s) {
+            // Welcome to the Algorithmic Outfit Selector, Name! 👕👖
+            // Thank you for visiting the Algorithmic Outfit Selector, Name! 👕👖
+            os << s.start << " " << s.middle << ", " << s.name << "! 👕👖" << endl;
+            return os;
+        }
+};
+
+class Messages {
+    private:
+        const string name;
+        const string middlePart;
+    public:
+        Statement welcome;
+        Statement goodbye;
+        Messages(const string n, const string m, const string greeting, const string farewell) : name(n), middlePart(m) {
+            welcome = Statement(n, middlePart, greeting);
+            goodbye = Statement(n, middlePart, farewell);
+        }
+        ~Messages() {
+            cout << "Goodbye! Au Revoir!" << endl;
+        }
+};
+// class Goodbye : public Welcome{
+// public:
+//     friend ostream& operator<<(ostream & os, const Goodbye&);
+// }
+// ostream& operator<<(ostream&os, const Goodbye& d){
+//     os<<"Thank you"<<d.name<<"for using the outfit selector program! "<<endl;
+//     os<<"You look good today, please come back tomorrow to keep looking this good hahaha"<<endl;
+//     return os;
+// }
 int main(){
     srand(time(NULL));
-    string closetName;
+    // string closetName;
     string addToCloset = "hello";
     int weather;
     string colorful;
     string chooseOutfit;
     string graphic;
-    Welcome wel("hi","TJ");
-    cout<<wel<<endl;
+    string name;
+    cout << "What is your name?: ";
+    getline(cin, name);
+    Messages greetAndFarewell = Messages(name, "the Algorithmic Outfit Selector!", "Welcome to", "Thank you for visiting");
+    cout << greetAndFarewell.welcome;
+    // Welcome wel("hi","TJ");
+    // cout<<wel<<endl;
     cout<<"Would you like to add an item to the closet? yes or no "<<endl;
     cin>>addToCloset;
     if (addToCloset == "yes"){
@@ -514,8 +564,8 @@ int main(){
                     cout << msg;
                 }
             }
-            Goodbye good;
-            cout<<good<<endl;
+            // Goodbye good;
+            // cout<<good<<endl;
         catch(int m) {
             if(m == SHIRTS) {
                 cout << "Sorry, your closet currently only contains tops. We cannot create outfits without bottoms." << endl;
@@ -529,4 +579,6 @@ int main(){
             exit(1);
         }
     } 
+    cout << greetAndFarewell.goodbye;
+
 }
