@@ -490,7 +490,8 @@ int main(){
     string name;
     cout << "What is your name?: ";
     getline(cin, name);
-    Messages greetAndFarewell = Messages(name, "the Algorithmic Outfit Selector!", "Welcome to", "Thank you for visiting");
+    Messages greetAndFarewell = Messages(name, "the Algorithmic Outfit Selector!", 
+        "Welcome to", "You look good today, please come back tomorrow to keep looking this good hahaha! Thank you for visiting");
     cout << greetAndFarewell.welcome;
     // Welcome wel("hi","TJ");
     // cout<<wel<<endl;
@@ -498,6 +499,7 @@ int main(){
     cin>>addToCloset;
     if (addToCloset == "yes"){
         addPiece();
+        cout << greetAndFarewell.goodbye;
     }
     else if(addToCloset == "no"){
         try {
@@ -559,6 +561,7 @@ int main(){
                     }
                     delete t;
                     delete b;
+                    cout << greetAndFarewell.goodbye;
                 }
                 catch(string msg) {
                     cout << msg;
@@ -579,6 +582,5 @@ int main(){
             exit(1);
         }
     } 
-    cout << greetAndFarewell.goodbye;
 
 }
