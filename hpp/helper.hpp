@@ -4,12 +4,17 @@ This header file defines helper functions that contribute to program functionali
 Additionally, this header file contains our global variables, such as the predefined path to the closet file.
 */
 
+#ifndef HELPER_H
+#define HELPER_H
+
 #include <string>
 
 void swap(double* a, double* b);
 int getNextID(const std::string file);
 bool inRange(double value, double lowerBound, double upperBound);
 double* tetradicPaletteGenerator(double hue);
+
+#endif
 
 // Change to function declaration
 

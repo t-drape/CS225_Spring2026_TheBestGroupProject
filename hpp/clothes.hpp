@@ -4,9 +4,13 @@ This header file defines the integral class of our program- our Clothes class de
 This file includes the auxiliary header files to improve readability and separation of concerns.
 */
 
+#ifndef CLOTHES_H
+#define CLOTHES_H
+
 #include <vector>
-#include "./../cpp/helper.cpp"
-#include "./../cpp/colors.cpp"
+
+#include "helper.hpp"
+#include "colors.hpp"
 #include "globalVars.hpp"
 
 void swap(double* a, double* b);
@@ -50,3 +54,5 @@ class Clothes : public HSLColor {
 vector<Clothes> createCloset(const string filePath);
 vector<Clothes> findShirts(const string filePath, int w, int colorful, string chosenGraphic, int chosenType=SHIRTS);
 void addPiece();
+
+#endif

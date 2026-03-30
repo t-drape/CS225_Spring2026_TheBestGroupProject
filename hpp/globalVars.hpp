@@ -1,3 +1,6 @@
+#ifndef GLOBALVARS_H
+#define GLOBALVARS_H
+
 #include <string>
 
 enum {SHORTS, SHIRTS};
@@ -15,3 +18,5 @@ const string TSHIRT_PATH = "./../displayFigures/tshirt.txt";
 const string SHORTS_PATH = "./../displayFigures/shorts.txt";
 const string LONG_SLEEVE_SHIRT_PATH = "./../displayFigures/LongSleeveTshirt.txt";
 const string PANT_PATH = "./../displayFigures/pants.txt";
+
+#endif

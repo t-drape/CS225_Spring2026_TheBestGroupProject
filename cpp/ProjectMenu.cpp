@@ -1,17 +1,19 @@
 #include <iostream>
 #include <climits>
 
-#include "./../hpp/read.hpp"
+// #include "./../hpp/read.hpp"
+// #include "./../hpp/clothes.hpp"
+// #include "./../hpp/colorDisplay.hpp"
+// #include "colors.cpp"
+
 #include "./../hpp/clothes.hpp"
+#include "./../hpp/globalVars.hpp"
+#include "./../hpp/helper.hpp"
+#include "./../hpp/colors.hpp"
 #include "./../hpp/colorDisplay.hpp"
+#include "./../hpp/read.hpp"
 
 using namespace std;
-
-void swap(double* a, double* b) {
-    double temp = *a;
-    *a = *b;
-    *b = temp;
-}
 
 void warmTopDescription(Clothes& piece) {
     string g = piece.getGraphic();
@@ -44,405 +46,330 @@ void coldBottomDescription(Clothes& piece) {
 }
 
 // Function Definition from read.hpp
-vector<int> getColors() {
-    vector<int> colors;
-    std::system("python3 ./../colorPicker/color_picker.py");
-    ifstream fin("./../colorPicker/chosen_color.txt");
-    string r;
-    fin >> r;
-    string g;
-    fin >> g;
-    string b;
-    fin >> b;
-    colors.push_back(stoi(r));
-    colors.push_back(stoi(g));
-    colors.push_back(stoi(b));
-    return colors;
-}
+// vector<int> getColors() {
+//     vector<int> colors;
+//     std::system("python3 ./../colorPicker/color_picker.py");
+//     ifstream fin("./../colorPicker/chosen_color.txt");
+//     string r;
+//     fin >> r;
+//     string g;
+//     fin >> g;
+//     string b;
+//     fin >> b;
+//     colors.push_back(stoi(r));
+//     colors.push_back(stoi(g));
+//     colors.push_back(stoi(b));
+//     return colors;
+// }
 
-void print_colored_rgb(int r, int g, int b, const std::string& text) {
-    // Set foreground color using RGB values
-    std::cout << "\033[38;2;" << r << ";" << g << ";" << b << "m";
-    std::cout << text;
-    // Reset color to default
-    std::cout << "\033[0m" << std::endl;
-}
-
-string longSleeveShirt() {
-    ifstream inputFile(LONG_SLEEVE_SHIRT_PATH);
-    if (!inputFile.is_open()) {
-        return "Error: Unable to open file";
-    }
-    string line, content;
-    while (getline(inputFile, line)) {
-        content += line + "\n";
-    }
-    return content;
-}
-
-string tshirt() {
-    ifstream inputFile(TSHIRT_PATH);
-    if (!inputFile.is_open()) {
-        return "Error: Unable to open file";
-    }
-    string line, content;
-    while (getline(inputFile, line)) {
-        content += line + "\n";
-    }
-    return content;
-}
-
-string pants() {
-    ifstream inputFile(PANT_PATH);
-    if (!inputFile.is_open()) {
-        return "Error: Unable to open file";
-    }
-    string line, content;
-    while (getline(inputFile, line)) {
-        content += line + "\n";
-    }
-    return content;
-}
-
-string shorts() {
-    ifstream inputFile(SHORTS_PATH);
-    if (!inputFile.is_open()) {
-        return "Error: Unable to open file";
-    }
-    string line, content;
-    while (getline(inputFile, line)) {
-        content += line + "\n";
-    }
-    return content;
-}
 
 // Function Definition from colors.hpp
-RGBColor* convertHSLtoRGB(HSLColor& color) {
-    /*
-    Reference: https://www.baeldung.com/cs/convert-color-hsl-rgb
-    */
+// RGBColor* convertHSLtoRGB(HSLColor& color) {
+//     /*
+//     Reference: https://www.baeldung.com/cs/convert-color-hsl-rgb
+//     */
 
-    // Chroma equation: (1 - |2L - 1|) x S
-    double chromaP2 = (2 * color.getLightness() - 1);
-    if (chromaP2 < 0) {
-        chromaP2 *= -1.0;
-    }
-    double chroma = (1 - chromaP2) * color.getSaturation();
-    // cout << "Chroma: " << chroma << endl;
+//     // Chroma equation: (1 - |2L - 1|) x S
+//     double chromaP2 = (2 * color.getLightness() - 1);
+//     if (chromaP2 < 0) {
+//         chromaP2 *= -1.0;
+//     }
+//     double chroma = (1 - chromaP2) * color.getSaturation();
+//     // cout << "Chroma: " << chroma << endl;
 
-    double hue_derivative = color.getHue() / 60.0;
-    // cout << "Hue Derivative: " << hue_derivative << endl;
+//     double hue_derivative = color.getHue() / 60.0;
+//     // cout << "Hue Derivative: " << hue_derivative << endl;
 
-    // X = C * (1 - |(H' % 2) - 1|})
-    double xP3 = (fmod(hue_derivative, 2.0)) - 1;
-    if (xP3 < 0) {
-        xP3 *= -1.0;
-    }
-    double x = chroma * (1 - xP3);
-    // cout << "X: " << x << endl;
+//     // X = C * (1 - |(H' % 2) - 1|})
+//     double xP3 = (fmod(hue_derivative, 2.0)) - 1;
+//     if (xP3 < 0) {
+//         xP3 *= -1.0;
+//     }
+//     double x = chroma * (1 - xP3);
+//     // cout << "X: " << x << endl;
 
-    double r = 0;
-    double g = 0;
-    double b = 0;
-    if (hue_derivative <= 1) {
-        r = chroma;
-        g = x;
-    } else if (hue_derivative <= 2) {
-        r = x;
-        g = chroma;
-    } else if (hue_derivative <= 3) {
-        g = chroma;
-        b = x;
-    } else if (hue_derivative <= 4) {
-        g = x;
-        b = chroma;
-    } else if (hue_derivative <= 5) {
-        r = x;
-        b = chroma;
-    } else if (hue_derivative <= 6) {
-        r = chroma;
-        b = x;
-    }
+//     double r = 0;
+//     double g = 0;
+//     double b = 0;
+//     if (hue_derivative <= 1) {
+//         r = chroma;
+//         g = x;
+//     } else if (hue_derivative <= 2) {
+//         r = x;
+//         g = chroma;
+//     } else if (hue_derivative <= 3) {
+//         g = chroma;
+//         b = x;
+//     } else if (hue_derivative <= 4) {
+//         g = x;
+//         b = chroma;
+//     } else if (hue_derivative <= 5) {
+//         r = x;
+//         b = chroma;
+//     } else if (hue_derivative <= 6) {
+//         r = chroma;
+//         b = x;
+//     }
 
-    double m = color.getLightness() - (chroma / 2.0);
-    // cout << "M: " << m << endl;
+//     double m = color.getLightness() - (chroma / 2.0);
+//     // cout << "M: " << m << endl;
 
-    // cout << "R1, G1, B1: " << r << ", " << g<< ", " << b << endl;
-    r += m;
-    g += m;
-    b += m;
+//     // cout << "R1, G1, B1: " << r << ", " << g<< ", " << b << endl;
+//     r += m;
+//     g += m;
+//     b += m;
 
-    // cout << "R1+m, G1+m, B1+m: " << r << ", " << g<< ", " << b << endl;
-    RGBColor* nc = new RGBColor(r * 255, g * 255, b * 255);
-    return nc;
-}
+//     // cout << "R1+m, G1+m, B1+m: " << r << ", " << g<< ", " << b << endl;
+//     RGBColor* nc = new RGBColor(r * 255, g * 255, b * 255);
+//     return nc;
+// }
 
-HSLColor* convertRGBtoHSL(RGBColor& color) {
-    /*
-    References: https://www.niwa.nu/2013/05/math-behind-colorspace-conversions-rgb-hsl/
-    */
+// HSLColor* convertRGBtoHSL(RGBColor& color) {
+//     /*
+//     References: https://www.niwa.nu/2013/05/math-behind-colorspace-conversions-rgb-hsl/
+//     */
 
-    double red = color.getRedValue();
-    double green = color.getGreenValue();
-    double blue = color.getBlueValue();
+//     double red = color.getRedValue();
+//     double green = color.getGreenValue();
+//     double blue = color.getBlueValue();
 
-    red /= 255;
-    green /= 255;
-    blue /= 255;
+//     red /= 255;
+//     green /= 255;
+//     blue /= 255;
 
-    double max;
-    double min;
+//     double max;
+//     double min;
 
-    if (red >= green && red >= blue) {
-        max = red;
-    } else if (green >= red && green >= blue) {
-        max = green;
-    } else if (blue >= red && blue >= green) {
-        max = blue;
-    }
+//     if (red >= green && red >= blue) {
+//         max = red;
+//     } else if (green >= red && green >= blue) {
+//         max = green;
+//     } else if (blue >= red && blue >= green) {
+//         max = blue;
+//     }
 
-    if (red <= green && red <= blue) {
-        min = red;
-    } else if (green <= red && green <= blue) {
-        min = green;
-    } else if (blue <= red && blue <= green) {
-        min = blue;
-    }
+//     if (red <= green && red <= blue) {
+//         min = red;
+//     } else if (green <= red && green <= blue) {
+//         min = green;
+//     } else if (blue <= red && blue <= green) {
+//         min = blue;
+//     }
 
-    double l = (min + max) / 2.0;
+//     double l = (min + max) / 2.0;
 
-    double sat;
-    double hue;
+//     double sat;
+//     double hue;
 
-    if (max == min) {
-        sat = 0;
-        hue = 0;
-    } else if (l <= 0.5) {
-        sat = (max-min)/(max+min);
-    } else if (l > 0.5) {
-        sat = (max-min)/(2.0-max-min);
-    }
+//     if (max == min) {
+//         sat = 0;
+//         hue = 0;
+//     } else if (l <= 0.5) {
+//         sat = (max-min)/(max+min);
+//     } else if (l > 0.5) {
+//         sat = (max-min)/(2.0-max-min);
+//     }
 
-    double h;
+//     double h;
 
-    if (red == max) {
-        h = (green - blue)/(max-min);
-    } else if (green == max) {
-        h = (2.0) + (blue-red)/(max-min);
-    } else if (blue == max) {
-        h = (4.0) + (red-green)/(max-min);
-    }
+//     if (red == max) {
+//         h = (green - blue)/(max-min);
+//     } else if (green == max) {
+//         h = (2.0) + (blue-red)/(max-min);
+//     } else if (blue == max) {
+//         h = (4.0) + (red-green)/(max-min);
+//     }
 
-    h *= 60;
+//     h *= 60;
 
-    if (h < 0) {
-        h += 360;
-    }
+//     if (h < 0) {
+//         h += 360;
+//     }
 
-    HSLColor* nc = new HSLColor(h, sat, l);
-    return nc;
-}
+//     HSLColor* nc = new HSLColor(h, sat, l);
+//     return nc;
+// }
 
 
 // Function Definition from clothes.hpp
-vector<Clothes> createCloset(const string filePath) {
-    /*
-    Purpose: Create a vector representation of the Clothes objects in the user's closet file
-    References: C++ documentation on std::stod function
-    */
-    bool allOneType = true;
-    vector<Clothes> closet;
-    int lastType = -1;
-    ifstream closetFile(filePath);
+// vector<Clothes> createCloset(const string filePath) {
+//     /*
+//     Purpose: Create a vector representation of the Clothes objects in the user's closet file
+//     References: C++ documentation on std::stod function
+//     */
+//     bool allOneType = true;
+//     vector<Clothes> closet;
+//     int lastType = -1;
+//     ifstream closetFile(filePath);
 
-    if (!closetFile.good()) {
-        throw(FILE_BAD_MESSAGE);
-    }
+//     if (!closetFile.good()) {
+//         throw(FILE_BAD_MESSAGE);
+//     }
 
-    int ID;
-    string graphics;
-    int weather;
-    int type;
-    double hue;
-    double sat;
-    double light;
+//     int ID;
+//     string graphics;
+//     int weather;
+//     int type;
+//     double hue;
+//     double sat;
+//     double light;
 
-    string inputLine;
-    string field;
+//     string inputLine;
+//     string field;
 
-    getline(closetFile, inputLine); // Skip the header line
+//     getline(closetFile, inputLine); // Skip the header line
 
-    while(!closetFile.eof() && getline(closetFile, inputLine)) {
-        stringstream parser(inputLine);
-        getline(parser, field, ',');
-        ID = stoi(field);
-        getline(parser, field, ',');
-        graphics = field;
-        getline(parser, field, ',');
-        weather = stoi(field);
-        getline(parser, field, ',');
-        type = stoi(field);
-        if (lastType == -1) {
-            lastType = type;
-        }
-        if (type != lastType) {
-            allOneType = false;
-        }
-        getline(parser, field, ',');
-        hue = stod(field);
-        getline(parser, field, ',');
-        sat = stod(field);
-        getline(parser, field, '\n');
-        light = stod(field);
-        closet.push_back(Clothes(graphics, weather, type, hue, sat, light, ID));
-    }
-    if (closet.size() == 0) {
-        throw(INSUFFICENT_CLOTHES_MESSAGE);
-    } 
-    if (allOneType) {
-        throw(type);
-    }
-    return closet;
-}
+//     while(!closetFile.eof() && getline(closetFile, inputLine)) {
+//         stringstream parser(inputLine);
+//         getline(parser, field, ',');
+//         ID = stoi(field);
+//         getline(parser, field, ',');
+//         graphics = field;
+//         getline(parser, field, ',');
+//         weather = stoi(field);
+//         getline(parser, field, ',');
+//         type = stoi(field);
+//         if (lastType == -1) {
+//             lastType = type;
+//         }
+//         if (type != lastType) {
+//             allOneType = false;
+//         }
+//         getline(parser, field, ',');
+//         hue = stod(field);
+//         getline(parser, field, ',');
+//         sat = stod(field);
+//         getline(parser, field, '\n');
+//         light = stod(field);
+//         closet.push_back(Clothes(graphics, weather, type, hue, sat, light, ID));
+//     }
+//     if (closet.size() == 0) {
+//         throw(INSUFFICENT_CLOTHES_MESSAGE);
+//     } 
+//     if (allOneType) {
+//         throw(type);
+//     }
+//     return closet;
+// }
 
-// This refines the closet based on user input to create a more realistic clothes matching application
-vector<Clothes> findShirts(const string filePath, int w, int colorful, string chosenGraphic, int chosenType) {
-    /*
-    Purpose: Create a vector representation of the Clothes objects in the user's closet file
-    References: C++ documentation on std::stod function
-    */
-    vector<Clothes> closet;
-    int lastType = chosenType;
-    ifstream closetFile(filePath);
+// // This refines the closet based on user input to create a more realistic clothes matching application
+// vector<Clothes> findShirts(const string filePath, int w, int colorful, string chosenGraphic, int chosenType) {
+//     /*
+//     Purpose: Create a vector representation of the Clothes objects in the user's closet file
+//     References: C++ documentation on std::stod function
+//     */
+//     vector<Clothes> closet;
+//     int lastType = chosenType;
+//     ifstream closetFile(filePath);
 
-    if (!closetFile.good()) {
-        throw(FILE_BAD_MESSAGE);
-    }
+//     if (!closetFile.good()) {
+//         throw(FILE_BAD_MESSAGE);
+//     }
 
-    int ID;
-    string graphics;
-    int weather;
-    int type;
-    double hue;
-    double sat;
-    double light;
+//     int ID;
+//     string graphics;
+//     int weather;
+//     int type;
+//     double hue;
+//     double sat;
+//     double light;
 
-    string inputLine;
-    string field;
+//     string inputLine;
+//     string field;
 
-    getline(closetFile, inputLine); // Skip the header line
+//     getline(closetFile, inputLine); // Skip the header line
 
-    while(!closetFile.eof() && getline(closetFile, inputLine)) {
-        stringstream parser(inputLine);
+//     while(!closetFile.eof() && getline(closetFile, inputLine)) {
+//         stringstream parser(inputLine);
 
-        getline(parser, field, ',');
-        ID = stoi(field);
+//         getline(parser, field, ',');
+//         ID = stoi(field);
 
-        getline(parser, field, ',');
-        graphics = field;
+//         getline(parser, field, ',');
+//         graphics = field;
 
-        getline(parser, field, ',');
-        weather = stoi(field);
+//         getline(parser, field, ',');
+//         weather = stoi(field);
 
-        getline(parser, field, ',');
-        type = stoi(field);
+//         getline(parser, field, ',');
+//         type = stoi(field);
 
-        getline(parser, field, ',');
-        hue = stod(field);
-        getline(parser, field, ',');
-        sat = stod(field);
-        getline(parser, field, '\n');
-        light = stod(field);
+//         getline(parser, field, ',');
+//         hue = stod(field);
+//         getline(parser, field, ',');
+//         sat = stod(field);
+//         getline(parser, field, '\n');
+//         light = stod(field);
 
-        if (chosenGraphic == "Any") {
-            if (colorful) {
-                if (weather == w && type == chosenType && light != 0 && light != 1) {
-                    closet.push_back(Clothes(graphics, weather, type, hue, sat, light, ID));
-                }
-            } else {
-                if (weather == w && type == chosenType && ( light == 0 || light == 1)) {
-                    closet.push_back(Clothes(graphics, weather, type, hue, sat, light, ID));
-                }
-            }
-        } else {
-            if (colorful) {
-                if (weather == w && graphics == chosenGraphic && type == chosenType && light != 0 && light != 1) {
-                    closet.push_back(Clothes(graphics, weather, type, hue, sat, light, ID));
-                }
-            } else {
-                if (weather == w && graphics == chosenGraphic && type == chosenType && ( light == 0 || light == 1)) {
-                    closet.push_back(Clothes(graphics, weather, type, hue, sat, light, ID));
-                }
-            }
-        }
-    }
-    if (closet.size() == 0) {
-        throw(NO_MATCH_MESSAGE);
-    }
-    return closet;
-}
+//         if (chosenGraphic == "Any") {
+//             if (colorful) {
+//                 if (weather == w && type == chosenType && light != 0 && light != 1) {
+//                     closet.push_back(Clothes(graphics, weather, type, hue, sat, light, ID));
+//                 }
+//             } else {
+//                 if (weather == w && type == chosenType && ( light == 0 || light == 1)) {
+//                     closet.push_back(Clothes(graphics, weather, type, hue, sat, light, ID));
+//                 }
+//             }
+//         } else {
+//             if (colorful) {
+//                 if (weather == w && graphics == chosenGraphic && type == chosenType && light != 0 && light != 1) {
+//                     closet.push_back(Clothes(graphics, weather, type, hue, sat, light, ID));
+//                 }
+//             } else {
+//                 if (weather == w && graphics == chosenGraphic && type == chosenType && ( light == 0 || light == 1)) {
+//                     closet.push_back(Clothes(graphics, weather, type, hue, sat, light, ID));
+//                 }
+//             }
+//         }
+//     }
+//     if (closet.size() == 0) {
+//         throw(NO_MATCH_MESSAGE);
+//     }
+//     return closet;
+// }
 
-void addPiece() {
-    int type = 0;
-    cout << "Is it a (0) Bottom or (1) Top piece?: ";
-    cin >> type;
+// void addPiece() {
+//     int type = 0;
+//     cout << "Is it a (0) Bottom or (1) Top piece?: ";
+//     cin >> type;
 
-    while (!cin || type > 1 || type < 0) {
-        cin.clear();
-        cin.ignore(INT_MAX, '\n');
-        cout << "Invalid Input. Is it a (0) Bottom or (1) Top piece?: ";
-        cin >> type;
-    }
+//     while (!cin || type > 1 || type < 0) {
+//         cin.clear();
+//         cin.ignore(INT_MAX, '\n');
+//         cout << "Invalid Input. Is it a (0) Bottom or (1) Top piece?: ";
+//         cin >> type;
+//     }
 
-    int weather = 0;
-    cout << "Is this a (0) Fall/Winter [cold] or (1) Spring/Summer [warm] piece?: ";
-    cin >> weather;
+//     int weather = 0;
+//     cout << "Is this a (0) Fall/Winter [cold] or (1) Spring/Summer [warm] piece?: ";
+//     cin >> weather;
 
-    while (!cin || weather > 1 || weather < 0) {
-        cin.clear();
-        cin.ignore(INT_MAX, '\n');
-        cout << "Invalid Input. Is this a (0) Fall/Winter [cold] or (1) Spring/Summer [warm] piece?: ";
-        cin >> weather;
-    }
+//     while (!cin || weather > 1 || weather < 0) {
+//         cin.clear();
+//         cin.ignore(INT_MAX, '\n');
+//         cout << "Invalid Input. Is this a (0) Fall/Winter [cold] or (1) Spring/Summer [warm] piece?: ";
+//         cin >> weather;
+//     }
 
-    string graphic = "None";
-    if (type == SHIRTS) {
-        cout << "What graphic? (Type 'None' for None)" << endl;
-        getline(cin, graphic);
-        getline(cin, graphic);
-    }
+//     string graphic = "None";
+//     if (type == SHIRTS) {
+//         cout << "What graphic? (Type 'None' for None)" << endl;
+//         getline(cin, graphic);
+//         getline(cin, graphic);
+//     }
 
-    cout << "Choose your Color from the Color Dialog." << endl;
-    vector<int> colorVector = getColors();
-    RGBColor rgb = RGBColor(colorVector[0], colorVector[1], colorVector[2]);
-    HSLColor* hsl = convertRGBtoHSL(rgb);
-    double hue = hsl->getHue();
-    double sat = hsl->getSaturation();
-    double light = hsl->getLightness();
-    delete hsl;
-    Clothes nc = Clothes(graphic, weather, type, hue, sat, light);
-    nc.addToCloset();
-}
-
-class Welcome{
-private:
-    string hello;
-    string name;
-public:
-    Welcome(string hey, string firstName){hello = hey; name = firstName;}
-    friend ostream& operator<<(ostream & os, const Welcome&);
-    ~Welcome();
-};
-ostream& operator<<(ostream&os, const Welcome& d){
-    os<<d.hello<<" "<<d.name<<" Welcome  to the outfit selector program! 👕👖"<<endl;
-    return os;
-}
-Welcome::~Welcome(){
-}
-
-class Goodbye {
-
-};
+//     cout << "Choose your Color from the Color Dialog." << endl;
+//     vector<int> colorVector = getColors();
+//     RGBColor rgb = RGBColor(colorVector[0], colorVector[1], colorVector[2]);
+//     HSLColor* hsl = convertRGBtoHSL(rgb);
+//     double hue = hsl->getHue();
+//     double sat = hsl->getSaturation();
+//     double light = hsl->getLightness();
+//     delete hsl;
+//     Clothes nc = Clothes(graphic, weather, type, hue, sat, light);
+//     nc.addToCloset();
+// }
 
 class Statement {
     private:
@@ -480,15 +407,7 @@ class Messages {
             cout << "Goodbye! Au Revoir!" << endl;
         }
 };
-// class Goodbye : public Welcome{
-// public:
-//     friend ostream& operator<<(ostream & os, const Goodbye&);
-// }
-// ostream& operator<<(ostream&os, const Goodbye& d){
-//     os<<"Thank you"<<d.name<<"for using the outfit selector program! "<<endl;
-//     os<<"You look good today, please come back tomorrow to keep looking this good hahaha"<<endl;
-//     return os;
-// }
+
 int main(){
     srand(time(NULL));
     string addToCloset = "hello";
@@ -507,7 +426,7 @@ int main(){
     string endLoop = "no";
 
     do {
-        cout<<"Would you like to add an item to the closet? yes or no "<<endl;
+        cout<<"Would you like to add an item to the closet? [yes, no]"<<endl;
         cin>>addToCloset;
 
         if (addToCloset == "yes"){
@@ -517,11 +436,18 @@ int main(){
             try {
                     vector<Clothes> fullCloset = createCloset(CLOSET_PATH);
 
-                    cout<<"Welcome to the Algorithmic Outfit Selector 🤩"<<endl;
+                    cout<<"It's the Algorithmic Outfit Selector's Time to Shine! 🤩"<<endl;
                     cout<<"There will be a couple questions to help determine a great outfit!"<<endl;
 
                     cout<<"What is the weather looking like today? Please Input Fahrenheit value: ";
                     cin>>weather;
+
+                    while (!cin) {
+                        cin.clear();
+                        cin.ignore(INT_MAX, '\n');
+                        cout << "Invalid Input. Please input a numerical value: ";
+                        cin >> weather;
+                    }
                     if (weather >=70){
                         weather = WARM;
                     }
@@ -529,7 +455,8 @@ int main(){
                         weather = COLD;
                     } 
 
-                    cout<<"Are you looking for a colorful shirt today?: yes or no"<<endl;
+
+                    cout<<"Are you looking for a colorful shirt today?: [yes, no]"<<endl;
                     cin>>colorful;
                     int c = NOT_COLORFUL;
                     if (colorful =="yes"){

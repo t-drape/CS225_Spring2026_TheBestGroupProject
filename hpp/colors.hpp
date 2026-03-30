@@ -4,6 +4,9 @@ This header file defines the major color types we use throughout the system. Add
 two conversion functions that are not class-specific, but allow us to convert between the color classes we have defined.
 */
 
+#ifndef COLORS_H
+#define COLORS_H
+
 #include <iostream>
 
 using namespace std;
@@ -43,3 +46,5 @@ class RGBColor {
 
 RGBColor* convertHSLtoRGB(HSLColor& color);
 HSLColor* convertRGBtoHSL(RGBColor& color);
+
+#endif
