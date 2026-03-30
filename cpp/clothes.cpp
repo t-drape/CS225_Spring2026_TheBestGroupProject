@@ -265,6 +265,36 @@ void addPiece() {
     nc.addToCloset();
 }
 
+void warmTopDescription(Clothes& piece) {
+    string g = piece.getGraphic();
+    cout << "---------------------Top Piece:----------------------------" << endl;
+    if (g != "None") {
+        cout << "Your " << piece.getGraphic() << " short-sleeve shirt" << " in H=" << piece.getHue() << ", S=" << piece.getSaturation() << ", L=" << piece.getLightness() << endl; 
+    } else {
+        cout << "Your " << "H=" << piece.getHue() << ", S=" << piece.getSaturation() << ", L=" << piece.getLightness() << " short-sleeve shirt" << endl; 
+    }
+}
+
+void coldTopDescription(Clothes& piece) {
+    string g = piece.getGraphic();
+    cout << "---------------------Top Piece:----------------------------" << endl;
+    if (g != "None") {
+        cout << "Your " << piece.getGraphic() << " long-sleeve shirt" << " in H=" << piece.getHue() << ", S=" << piece.getSaturation() << ", L=" << piece.getLightness() << endl; 
+    } else {
+        cout << "Your " << "H=" << piece.getHue() << ", S=" << piece.getSaturation() << ", L=" << piece.getLightness() << " long-sleeve shirt" << endl; 
+    }
+}
+
+void warmBottomDescription(Clothes& piece) {
+    cout << "---------------------Bottom Piece:----------------------------" << endl;
+    cout << "Your" << " H=" << piece.getHue() << ", S=" << piece.getSaturation() << ", L=" << piece.getLightness() << " shorts" << endl; 
+}
+
+void coldBottomDescription(Clothes& piece) {
+    cout << "---------------------Bottom Piece:----------------------------" << endl;
+    cout << "Your " << "H=" << piece.getHue() << ", S=" << piece.getSaturation() << ", L=" << piece.getLightness() << " pants" << endl; 
+}
+
 /*
     Note: 
     The IDS will not shift on deletion. This is fine. We have an incrementing count,

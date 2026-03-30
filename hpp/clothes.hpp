@@ -55,4 +55,9 @@ vector<Clothes> createCloset(const string filePath);
 vector<Clothes> findShirts(const string filePath, int w, int colorful, string chosenGraphic, int chosenType=SHIRTS);
 void addPiece();
 
+void warmTopDescription(Clothes& piece);
+void coldTopDescription(Clothes& piece);
+void warmBottomDescription(Clothes& piece);
+void coldBottomDescription(Clothes& piece);
+
 #endif
