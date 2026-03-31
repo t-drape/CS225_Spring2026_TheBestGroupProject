@@ -1,10 +1,3 @@
-/******************************************************************************
-Class File 
-
-Had a size in here from and original idea but it doesn't seem necessary 
-so I just commented it out 
-
-*******************************************************************************/
 #include <iostream>
 #include <string>
 using namespace std;
