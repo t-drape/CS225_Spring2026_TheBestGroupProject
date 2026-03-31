@@ -24,7 +24,7 @@ class Clothes : public HSLColor {
     
     public:
         Clothes(string graphics, int weather, int type, double h, double s, double l, int id=getNextID(CLOSET_PATH));
-
+          ~Clothes();
         string getGraphic();
 
         // Use a reference to reduce memory usage, (pass by reference, not pass by value)
