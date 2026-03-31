@@ -1,4 +1,6 @@
 # CS225_Spring2026_TheBestGroupProject
-Not sure what our project is yet. We'll decide soon and start building! :)
+Our Project is a an algorithmic clothing selector.
+There are two main components to the project: adding items to the closet and being able to generate a outfit composed of a top and a bottom.
+The main code file where the project is compiled is the Project Menu
 
 Note: We used Grok AI to generate synthetic Clothes object to have a more complete Closet.
