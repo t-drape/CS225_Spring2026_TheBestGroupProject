@@ -22,7 +22,7 @@ class HSLColor {
         double getSaturation();
 
         HSLColor(double hue = 40, double saturation = 35, double lightness = 75);
-
+         ~HSLColor();
         friend ostream& operator<<(ostream& os, HSLColor& color);
 };
 
@@ -33,7 +33,7 @@ class RGBColor {
         int blueValue;
     public:
         RGBColor(int r, int g, int b);
-
+       ~RGBColor();
         double getRedValue();
 
         double getGreenValue();
