@@ -4,11 +4,10 @@
 
 using namespace std;
 
-HSLColor::~HSLColor() {
-}
+HSLColor::~HSLColor() {};
 
-RGBColor::~RGBColor() {
-}
+RGBColor::~RGBColor() {};
+
 int HSLColor::getHue() {return hue;}
 double HSLColor::getLightness() {return lightness;}
 double HSLColor::getSaturation() {return saturation;}

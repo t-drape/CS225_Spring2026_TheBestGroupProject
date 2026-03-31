@@ -97,14 +97,14 @@ int main(){
 
                         if (weather == WARM) {
                             warmTopDescription(top);
-                            print_colored_rgb(t->getRedValue(), t->getGreenValue(), t->getBlueValue(), tshirt());
+                            printColoredRGB(t->getRedValue(), t->getGreenValue(), t->getBlueValue(), tshirt());
                             warmBottomDescription(bottoms[chosenBottomIndex]);
-                            print_colored_rgb(b->getRedValue(), b->getGreenValue(), b->getBlueValue(), shorts());
+                            printColoredRGB(b->getRedValue(), b->getGreenValue(), b->getBlueValue(), shorts());
                         } else {
                             coldTopDescription(top);
-                            print_colored_rgb(t->getRedValue(), t->getGreenValue(), t->getBlueValue(), longSleeveShirt());
+                            printColoredRGB(t->getRedValue(), t->getGreenValue(), t->getBlueValue(), longSleeveShirt());
                             coldBottomDescription(bottoms[chosenBottomIndex]);
-                            print_colored_rgb(b->getRedValue(), b->getGreenValue(), b->getBlueValue(), pants());
+                            printColoredRGB(b->getRedValue(), b->getGreenValue(), b->getBlueValue(), pants());
                         }
                         delete t;
                         delete b;

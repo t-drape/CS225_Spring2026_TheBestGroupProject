@@ -4,7 +4,7 @@
 
 using namespace std;
 
-void print_colored_rgb(int r, int g, int b, const std::string& text);
+void printColoredRGB(int r, int g, int b, const std::string& text);
 string longSleeveShirt();
 string pants();
 string shorts();

@@ -7,7 +7,7 @@
 
 using namespace std;
 
-void print_colored_rgb(int r, int g, int b, const std::string& text) {
+void printColoredRGB(int r, int g, int b, const std::string& text) {
     // Set foreground color using RGB values
     std::cout << "\033[38;2;" << r << ";" << g << ";" << b << "m";
     std::cout << text;
