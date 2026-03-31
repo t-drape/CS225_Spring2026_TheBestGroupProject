@@ -6,6 +6,10 @@
 
 using namespace std;
 
+Clothes::~Clothes() {
+    // no dynamic memory to clean up?
+}
+
 Clothes::Clothes(string graphics, int weather, int type, double h, double s, double l, int id) : ID(id) {
     this->graphics = graphics;
     this->weather = weather;
