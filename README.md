@@ -7,4 +7,4 @@ Note: We used Grok AI to generate synthetic Clothes object to have a more comple
 
 
 Use this to compile the program, from inside the cpp directory:
-<img width="866" height="40" alt="Compile_Code" src="https://github.com/user-attachments/assets/4f180472-a36d-44cf-91d2-0fd9f2e3f63a" />
+g++ /* all .cpp files inside the cpp directory */ -o main
