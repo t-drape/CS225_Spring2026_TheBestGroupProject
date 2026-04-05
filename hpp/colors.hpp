@@ -17,6 +17,8 @@ class HSLColor {
         double saturation; // Measured in percentages
         double lightness; // Measured in percentages
     public:
+        // Use an integer here, as the precision should be to the 1's place.
+        // For example, Google's Color picker doesn't display fractional values, only integers in [0, 359].
         int getHue();
         double getLightness();
         double getSaturation();
